@@ -1,29 +1,38 @@
 import { Link } from "react-router-dom";
 import "./Aside.css";
 import { bxIcons } from "../../../data/icons";
+import {
+	IcOutlineBookmarks,
+	IcOutlineExplore,
+	PhHeartDuotone,
+} from "../../../data/Icon";
 
 export const Aside = () => {
 	return (
 		<aside className="nav notes_nav">
 			<ul className="nav__items">
-				<Link to="/home" className="nav__list_item">
+				<Link to="/" className="nav__list_item">
 					{bxIcons.home}
 					<span className="nav__item">Home</span>
 				</Link>
 
-				<Link to="/label" className="nav__list_item">
-					{bxIcons.label}
-					<span className="nav__item">Labels</span>
+				<Link to="/explore" className="nav__list_item">
+					<IcOutlineExplore />
+					<span className="nav__item">Explore</span>
 				</Link>
 
-				<Link to="/archive" className="nav__list_item">
-					{bxIcons.archive}
-					<span className="nav__item">Archive</span>
+				<Link to="/playlist" className="nav__list_item">
+					{bxIcons.playlist}
+					<span className="nav__item">Playlist</span>
 				</Link>
 
-				<Link to="/trash" className="nav__list_item">
-					{bxIcons.trash}
-					<span className="nav__item">Trash</span>
+				<Link to="/like" className="nav__list_item">
+					<PhHeartDuotone />
+					<span className="nav__item">Liked Video</span>
+				</Link>
+				<Link to="/watchlater" className="nav__list_item">
+					<IcOutlineBookmarks />
+					<span className="nav__item">Watch Later</span>
 				</Link>
 				<Link to="/profile" className="nav__list_item">
 					{bxIcons.userCircle}

@@ -5,6 +5,7 @@ import { LoaderProvider } from "./loaderContext";
 import { ScrollToTopProvider } from "./scrollToTopContext";
 import { ThemeProvider } from "./themeContext";
 import { UserProvider } from "./userContext";
+import { VideoProvider } from "./videoContext";
 
 const MagnificentContext = createContext();
 
@@ -15,15 +16,19 @@ export const MagnificentProvider = ({ children }) => {
 	return (
 		<MagnificentContext.Provider value={value}>
 			<BrowserRouter>
-				<ScrollToTopProvider>
-					<AuthProvider>
-						<UserProvider>
-							<ThemeProvider>
-								<LoaderProvider>{children}</LoaderProvider>
-							</ThemeProvider>
-						</UserProvider>
-					</AuthProvider>
-				</ScrollToTopProvider>
+				<LoaderProvider>
+					<ScrollToTopProvider>
+						<AuthProvider>
+							<VideoProvider>
+								<UserProvider>
+									<ThemeProvider>
+										<LoaderProvider>{children}</LoaderProvider>
+									</ThemeProvider>
+								</UserProvider>
+							</VideoProvider>
+						</AuthProvider>
+					</ScrollToTopProvider>
+				</LoaderProvider>
 			</BrowserRouter>
 		</MagnificentContext.Provider>
 	);

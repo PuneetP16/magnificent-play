@@ -1,16 +1,23 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
+import "./responsive.css";
 import { Home, Login, SignUp } from "./pages";
 import { MockBee } from "./backend/mockdocs/MockBee";
 import { MockAPI } from "./backend/mockdocs/MockMan";
-import { Footer, Header, Loader, SearchBoxMobile } from "./components";
+import {
+	Aside,
+	AsideMobile,
+	Footer,
+	Header,
+	Loader,
+	SearchBoxMobile,
+} from "./components";
 import { useAuth, useLoader } from "./contexts";
 
 function App() {
 	const { pathname } = useLocation();
 	const { isAuth } = useAuth();
 	const { loader } = useLoader();
-
 	const isHomePage = pathname === "/";
 	const isAuthPage = pathname === "/login" || pathname === "/signup";
 	const isNotFoundPage = pathname === "/pagenotfound";
@@ -30,6 +37,7 @@ function App() {
 	return (
 		<div className={`App body ${injectPageCss()}`}>
 			<Header />
+			{isAuthPage || isNotFoundPage ? null : <Aside />}
 			<SearchBoxMobile />
 			<Routes>
 				<Route path="/" element={<Home />} />
@@ -46,6 +54,7 @@ function App() {
 				<Route path="/loader" element={<Loader />} />
 				<Route path="*" element={<Navigate to="/pagenotfound" replace />} />
 			</Routes>
+			{isAuthPage || isNotFoundPage ? null : <AsideMobile />}
 			{(pathname !== "/pagenotfound" || (pathname !== "/login" && loader)) && (
 				<Footer />
 			)}
