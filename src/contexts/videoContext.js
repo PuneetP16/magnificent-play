@@ -11,6 +11,7 @@ export const VideoProvider = ({ children }) => {
 		videos: [],
 		categories: [],
 	};
+	
 	const { axiosRequest } = useAxios();
 
 	const [videoState, videoDispatch] = useReducer(

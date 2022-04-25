@@ -33,7 +33,6 @@ export const Home = () => {
 				<section className="homepage__section items_container">
 					<h3 className="h3 section__heading">Trending Videos</h3>
 					<ul className="video__items">
-						{/* <!-- -------Vertical CARDS------- --> */}
 						<VideoListing list={videos.slice(0, 8)} />
 					</ul>
 				</section>
