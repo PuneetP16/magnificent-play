@@ -162,3 +162,11 @@ a {
 	border: none;
 	color: var(--COLOR-PRIMARY);
 }
+
+@media only screen and (max-width: 780px) {
+	.form__item .btn--icon {
+		position: absolute;
+		right: 4px;
+		top: 33px;
+	}
+}

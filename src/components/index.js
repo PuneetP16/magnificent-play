@@ -1,3 +1,7 @@
+export { VideoCard } from "./Cards/VideoCard/VideoCard";
+export { CategoryCard } from "./Cards/CategoryCard/CategoryCard";
+export { CategoryListing } from "./CategoryListing/CategoryListing";
+export { VideoListing } from "./VideoListing/VideoListing";
 export { Alert } from "./UI/Alert/Alert";
 export { Aside } from "./UI/Aside/Aside";
 export { AsideMobile } from "./UI/Aside/AsideMobile";

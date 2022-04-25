@@ -20,4 +20,9 @@ export const bxIcons = {
 	sun: <i className="bx bxs-sun"></i>,
 	rightArrow: <i className="bx bx-right-arrow-alt"></i>,
 	filterAlt: <i className="bx bx-filter-alt"></i>,
+	playlist: <i className="bx bxs-playlist"></i>,
+	like: <i className="bx bx-like"></i>,
+	liked: <i className="bx bxs-heart"></i>,
+	watchLater: <i className="bx bx-stopwatch"></i>,
+	watchLaterSelected: <i className="bx bxs-stopwatch"></i>,
 };
