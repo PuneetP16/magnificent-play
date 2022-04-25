@@ -82,6 +82,7 @@ export const VideoCard = ({ video }) => {
 							title="Like"
 						>
 							{bxIcons.like}
+							{/* for future implementation */}
 							{/* bxIcons.liked */}
 						</button>
 						<button
@@ -89,6 +90,7 @@ export const VideoCard = ({ video }) => {
 							title="Watch Later"
 						>
 							{bxIcons.watchLater}
+							{/* for future implementation */}
 							{/* {bxIcons.watchLaterSelected} */}
 						</button>
 						<button
