@@ -2303,7 +2303,7 @@ export const videos = [
 			},
 		},
 		contentDetails: {
-			duration: "PT26S",
+			duration: "PT0M26S",
 			dimension: "2d",
 			definition: "sd",
 			caption: "false",
@@ -3459,7 +3459,7 @@ export const videos = [
 			},
 		},
 		contentDetails: {
-			duration: "PT51S",
+			duration: "PT0M51S",
 			dimension: "2d",
 			definition: "sd",
 			caption: "false",

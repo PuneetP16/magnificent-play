@@ -23,6 +23,7 @@ export const bxIcons = {
 	playlist: <i className="bx bxs-playlist"></i>,
 	like: <i className="bx bx-like"></i>,
 	liked: <i className="bx bxs-heart"></i>,
+	likedThumb: <i className="bx bxs-like"></i>,
 	watchLater: <i className="bx bx-stopwatch"></i>,
 	watchLaterSelected: <i className="bx bxs-stopwatch"></i>,
 };

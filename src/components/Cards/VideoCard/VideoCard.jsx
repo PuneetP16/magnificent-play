@@ -1,8 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useVideo } from "../../../contexts";
+import { useAxios } from "../../../customHooks";
 import { bxIcons } from "../../../data/icons";
+import { isVideoInList } from "../../../utilities/checkIfExist";
+import {
+	getIndianDate,
+	getVideoDuration,
+} from "../../../utilities/getFormattedData";
 import "./VideoCard.css";
 
 export const VideoCard = ({ video }) => {
+	const { pathname } = useLocation();
+
+	const {
+		videoState: { likes, watchlater },
+		addToLikedVideos,
+		removeFromLikedVideos,
+		removeFromWatchLaterVideos,
+		addToWatchLaterVideos,
+	} = useVideo();
+
 	const {
 		_id,
 		contentDetails: { duration },
@@ -21,47 +38,44 @@ export const VideoCard = ({ video }) => {
 		statistics: { viewCount },
 	} = video;
 
-	console.log({
-		_id,
-		title,
-		description,
-		categoryId,
-		channelId,
-		channelTitle,
-		publishedAt,
-		tags,
-		thumbnailURL,
-		viewCount,
-	});
+	const { axiosRequest } = useAxios();
 
-	const getIndianDate = (isoDate) => {
-		let dateObj = new Date(isoDate);
-		return dateObj.toLocaleDateString("en-IN");
+	// console.log({
+	// 	_id,
+	// 	title,
+	// 	description,
+	// 	categoryId,
+	// 	channelId,
+	// 	channelTitle,
+	// 	publishedAt,
+	// 	tags,
+	// 	thumbnailURL,
+	// 	viewCount,
+	// });
+
+	const toggleLikedVideo = () => {
+		isVideoInList(video, likes)
+			? removeFromLikedVideos(axiosRequest, video)
+			: addToLikedVideos(axiosRequest, video);
+	};
+	const toggleWatchLaterVideo = () => {
+		isVideoInList(video, watchlater)
+			? removeFromWatchLaterVideos(axiosRequest, video)
+			: addToWatchLaterVideos(axiosRequest, video);
 	};
 
-	const getDuration = (str) => {
-		let seconds = str
-			.split("M")[1]
-			.split("")
-			.filter((number) => !isNaN(number));
-		let minutes = str
-			.split("M")[0]
-			.split("")
-			.filter((number) => !isNaN(number));
-		if (seconds.length === 1) {
-			seconds = "0" + seconds.join("");
-		} else {
-			seconds = seconds.join("");
-		}
+	const getLikeBtn = (() => {
+		if (pathname === "/like") return bxIcons.likedThumb;
+		return isVideoInList(video, likes) ? bxIcons.likedThumb : bxIcons.like;
+	})();
 
-		if (minutes.length === 1) {
-			minutes = "0" + minutes.join("");
-		} else {
-			minutes = minutes.join("");
-		}
+	const getWatchLaterBtn = (() => {
+		if (pathname === "/watchlater") return bxIcons.watchLaterSelected;
+		return isVideoInList(video, watchlater)
+			? bxIcons.watchLaterSelected
+			: bxIcons.watchLater;
+	})();
 
-		return minutes + ":" + seconds;
-	};
 	return (
 		<article className="categories__list video_card ">
 			<section className="video_card__header">
@@ -75,23 +89,25 @@ export const VideoCard = ({ video }) => {
 			</section>
 			<section className="video_card__body">
 				<div className="video_card__nav">
-					<span className="video__duration">{getDuration(duration)}</span>
+					<span className="video__duration">{getVideoDuration(duration)}</span>
 					<div className="video_card__nav_items">
 						<button
 							className="btn btn--primary btn--icon btn--round"
-							title="Like"
+							title={isVideoInList(video, likes) ? "remove from like list" : "Like"}
+							onClick={toggleLikedVideo}
 						>
-							{bxIcons.like}
-							{/* for future implementation */}
-							{/* bxIcons.liked */}
+							{getLikeBtn}
 						</button>
 						<button
 							className="btn btn--primary btn--icon btn--round"
-							title="Watch Later"
+							title={
+								isVideoInList(video, watchlater)
+									? "remove from watch later"
+									: "Watch Later"
+							}
+							onClick={toggleWatchLaterVideo}
 						>
-							{bxIcons.watchLater}
-							{/* for future implementation */}
-							{/* {bxIcons.watchLaterSelected} */}
+							{getWatchLaterBtn}
 						</button>
 						<button
 							className="btn btn--primary btn--icon btn--round"
