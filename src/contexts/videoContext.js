@@ -14,7 +14,6 @@ export const VideoProvider = ({ children }) => {
 		likes: [],
 		watchlater: [],
 	};
-
 	const { axiosRequest } = useAxios();
 	const { isAuth } = useAuth();
 	const [videoState, videoDispatch] = useReducer(
@@ -37,7 +36,7 @@ export const VideoProvider = ({ children }) => {
 			});
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [isAuth]);
 
 	useEffect(() => {
 		(async () => {
@@ -54,7 +53,7 @@ export const VideoProvider = ({ children }) => {
 			});
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [isAuth]);
 
 	useEffect(() => {
 		(async () => {
@@ -170,7 +169,7 @@ export const VideoProvider = ({ children }) => {
 		addToWatchLaterVideos,
 		removeFromWatchLaterVideos,
 	};
-	
+
 	return (
 		<VideoContext.Provider value={value}>{children}</VideoContext.Provider>
 	);

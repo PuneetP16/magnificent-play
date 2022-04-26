@@ -1,5 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
-import { useVideo } from "../../../contexts";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth, useVideo } from "../../../contexts";
 import { useAxios } from "../../../customHooks";
 import { bxIcons } from "../../../data/icons";
 import { isVideoInList } from "../../../utilities/checkIfExist";
@@ -11,7 +11,7 @@ import "./VideoCard.css";
 
 export const VideoCard = ({ video }) => {
 	const { pathname } = useLocation();
-
+	const navigate = useNavigate();
 	const {
 		videoState: { likes, watchlater },
 		addToLikedVideos,
@@ -39,26 +39,33 @@ export const VideoCard = ({ video }) => {
 	} = video;
 
 	const { axiosRequest } = useAxios();
+	const { isAuth } = useAuth();
 
-	// console.log({
-	// 	_id,
-	// 	title,
-	// 	description,
-	// 	categoryId,
-	// 	channelId,
-	// 	channelTitle,
-	// 	publishedAt,
-	// 	tags,
-	// 	thumbnailURL,
-	// 	viewCount,
-	// });
+	const navigateToLogin = () => {
+		if (!isAuth) navigate("/login");
+	};
+
+	console.log({
+		_id,
+		title,
+		description,
+		categoryId,
+		channelId,
+		channelTitle,
+		publishedAt,
+		tags,
+		thumbnailURL,
+		viewCount,
+	});
 
 	const toggleLikedVideo = () => {
+		navigateToLogin();
 		isVideoInList(video, likes)
 			? removeFromLikedVideos(axiosRequest, video)
 			: addToLikedVideos(axiosRequest, video);
 	};
 	const toggleWatchLaterVideo = () => {
+		navigateToLogin();
 		isVideoInList(video, watchlater)
 			? removeFromWatchLaterVideos(axiosRequest, video)
 			: addToWatchLaterVideos(axiosRequest, video);
@@ -93,7 +100,9 @@ export const VideoCard = ({ video }) => {
 					<div className="video_card__nav_items">
 						<button
 							className="btn btn--primary btn--icon btn--round"
-							title={isVideoInList(video, likes) ? "remove from like list" : "Like"}
+							title={
+								isVideoInList(video, likes) ? "remove from like list" : "Like"
+							}
 							onClick={toggleLikedVideo}
 						>
 							{getLikeBtn}
