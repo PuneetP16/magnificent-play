@@ -9,17 +9,21 @@ export const categories = [
 	{
 		_id: uuid(),
 		categoryName: "Best Sixes",
+		categoryId: 22,
 	},
 	{
 		_id: uuid(),
 		categoryName: "Best Yorkers",
+		categoryId: 17,
 	},
 	{
 		_id: uuid(),
 		categoryName: "Best Catches",
+		categoryId: 18,
 	},
 	{
 		_id: uuid(),
 		categoryName: "Funny Moments",
+		categoryId: 24,
 	},
 ];

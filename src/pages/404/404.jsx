@@ -10,7 +10,7 @@ export const NotFound = () => {
 				404 Page Not Found <br />
 				Go back to <br />
 				<Link to="/" className="homepage__link">
-					Landing Page
+					Home Page
 				</Link>
 			</h1>
 		</div>

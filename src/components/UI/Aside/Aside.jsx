@@ -34,6 +34,10 @@ export const Aside = () => {
 					<IcOutlineBookmarks />
 					<span className="nav__item">Watch Later</span>
 				</Link>
+				<Link to="/history" className="nav__list_item">
+					{bxIcons.history}
+					<span className="nav__item">History</span>
+				</Link>
 				<Link to="/profile" className="nav__list_item">
 					{bxIcons.userCircle}
 					<span className="nav__item">Profile</span>

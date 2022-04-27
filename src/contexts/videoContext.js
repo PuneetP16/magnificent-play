@@ -14,6 +14,7 @@ export const VideoProvider = ({ children }) => {
 		likes: [],
 		watchlater: [],
 	};
+	
 	const { axiosRequest } = useAxios();
 	const { isAuth } = useAuth();
 	const [videoState, videoDispatch] = useReducer(

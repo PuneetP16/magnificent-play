@@ -45,18 +45,18 @@ export const VideoCard = ({ video }) => {
 		if (!isAuth) navigate("/login");
 	};
 
-	console.log({
-		_id,
-		title,
-		description,
-		categoryId,
-		channelId,
-		channelTitle,
-		publishedAt,
-		tags,
-		thumbnailURL,
-		viewCount,
-	});
+	// console.log({
+	// 	_id,
+	// 	title,
+	// 	description,
+	// 	categoryId,
+	// 	channelId,
+	// 	channelTitle,
+	// 	publishedAt,
+	// 	tags,
+	// 	thumbnailURL,
+	// 	viewCount,
+	// });
 
 	const toggleLikedVideo = () => {
 		navigateToLogin();
