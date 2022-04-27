@@ -1,10 +1,10 @@
 .video_card:hover {
 	box-shadow: 0px 4px 15px 0px var(--COLOR-BOX-SHADOW1);
-	overflow: hidden;
 }
 
 .video_card {
 	border: 0.2px solid var(--COLOR-CARD-BOX-SHADOW3);
+	overflow: hidden;
 	border-radius: 8px;
 }
 
@@ -12,10 +12,6 @@
 	width: 25rem;
 	aspect-ratio: 1.78/1;
 }
-
-/* .video_card__thumbnail:hover {
-	transform: scale(1.05);
-} */
 
 .video_card__body {
 	width: 25rem;

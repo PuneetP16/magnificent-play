@@ -9,7 +9,7 @@ import { CategoryListing, VideoListing } from "../../components";
 export const Home = () => {
 	useDocumentTitle("Home | MS");
 	const {
-		videoState: { videos = [], categories },
+		videoState: { videos, categories },
 	} = useVideo();
 	return (
 		<div className="home_page">

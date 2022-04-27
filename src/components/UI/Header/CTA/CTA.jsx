@@ -6,12 +6,11 @@ import { useAuth } from "../../../../contexts";
 
 export const CTA = () => {
 	const { isAuth, toggleAuth } = useAuth();
-
 	const { pathname } = useLocation();
 
-	const onClickHandler = () => {
+	const logoutHandler = () => {
 		if (isAuth) {
-			localStorage.removeItem("noteToken");
+			localStorage.removeItem("videoToken");
 			toggleAuth();
 		}
 	};
@@ -33,7 +32,7 @@ export const CTA = () => {
 	return (
 		<div className="header__nav_btns">
 			<Link
-				onClick={onClickHandler}
+				onClick={logoutHandler}
 				className={`btn btn--primary btn--icon auth__btn ${
 					isAuth ? "auth__btn--logout" : ""
 				}`}

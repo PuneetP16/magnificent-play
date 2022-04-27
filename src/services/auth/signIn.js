@@ -21,7 +21,7 @@ export const signIn = async ({
 				visibility: true,
 			}));
 
-			localStorage.setItem("noteToken", res.data.encodedToken);
+			localStorage.setItem("videoToken", res.data.encodedToken);
 			setTimeout(() => {
 				toggleAuth();
 			}, 1000);

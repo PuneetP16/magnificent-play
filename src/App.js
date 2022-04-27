@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import "./responsive.css";
-import { Home, Login, SignUp } from "./pages";
+import { Home, Like, Login, SignUp, WatchLater } from "./pages";
 import { MockBee } from "./backend/mockdocs/MockBee";
 import { MockAPI } from "./backend/mockdocs/MockMan";
 import {
@@ -13,12 +13,12 @@ import {
 	SearchBoxMobile,
 } from "./components";
 import { useAuth, useLoader } from "./contexts";
+import { Explore } from "./pages/Explore/Explore";
 
 function App() {
 	const { pathname } = useLocation();
 	const { isAuth } = useAuth();
 	const { loader } = useLoader();
-	const isHomePage = pathname === "/";
 	const isAuthPage = pathname === "/login" || pathname === "/signup";
 	const isNotFoundPage = pathname === "/pagenotfound";
 
@@ -29,9 +29,7 @@ function App() {
 		if (isAuthPage) {
 			return "auth";
 		}
-		if (isHomePage) {
-			return "home";
-		}
+		return "home";
 	};
 
 	return (
@@ -41,6 +39,9 @@ function App() {
 			<SearchBoxMobile />
 			<Routes>
 				<Route path="/" element={<Home />} />
+				<Route path="/explore" element={<Explore />} />
+				<Route path="/like" element={<Like />} />
+				<Route path="/watchlater" element={<WatchLater />} />
 				<Route path="/mockbee" element={<MockBee />} />
 				<Route path="/mockman" element={<MockAPI />} />
 				<Route

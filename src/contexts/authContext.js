@@ -5,7 +5,7 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-	const token = localStorage.getItem("noteToken");
+	const token = localStorage.getItem("videoToken");
 
 	const [isAuth, setIsAuth] = useState(token ? true : false);
 
@@ -15,5 +15,4 @@ export const AuthProvider = ({ children }) => {
 
 	const value = { isAuth, toggleAuth, token, setIsAuth };
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-	
 };
