@@ -1,10 +1,21 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import "./responsive.css";
-import { Home, Like, Login, NotFound, SignUp, WatchLater } from "./pages";
+import {
+	Home,
+	Like,
+	Explore,
+	Login,
+	NotFound,
+	SignUp,
+	WatchLater,
+	History,
+	SingleVideo,
+} from "./pages";
 import { MockBee } from "./backend/mockdocs/MockBee";
 import { MockAPI } from "./backend/mockdocs/MockMan";
 import {
+	Alert,
 	Aside,
 	AsideMobile,
 	Footer,
@@ -12,11 +23,11 @@ import {
 	Loader,
 	SearchBoxMobile,
 } from "./components";
-import { useAuth, useLoader } from "./contexts";
-import { Explore } from "./pages/Explore/Explore";
+import { useAlert, useAuth, useLoader } from "./contexts";
 
 function App() {
 	const { pathname } = useLocation();
+	const { alert } = useAlert();
 	const { isAuth } = useAuth();
 	const { loader } = useLoader();
 	const isAuthPage = pathname === "/login" || pathname === "/signup";
@@ -34,17 +45,20 @@ function App() {
 
 	return (
 		<div className={`App ${injectPageCss()}`}>
+			{alert.visibility && <Alert />}
 			{pathname !== "/pagenotfound" && <Header />}
 
 			{isAuthPage || isNotFoundPage ? null : <Aside />}
 			{pathname !== "/pagenotfound" && <SearchBoxMobile />}
-			
+
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/explore" element={<Explore />} />
+				<Route path="/explore/:videoId" element={<SingleVideo />} />
 				<Route path="/explore/search" element={<Explore />} />
 				<Route path="/like" element={<Like />} />
 				<Route path="/watchlater" element={<WatchLater />} />
+				<Route path="/history" element={<History />} />
 				<Route path="/mockbee" element={<MockBee />} />
 				<Route path="/mockman" element={<MockAPI />} />
 				<Route

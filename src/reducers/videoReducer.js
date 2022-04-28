@@ -16,6 +16,12 @@ export const videoReducer = (videoState, action) => {
 			return { ...videoState, watchlater: action.payload };
 		case "REMOVE_WATCHLATER_VIDEOS":
 			return { ...videoState, watchlater: action.payload };
+		case "GET_HISTORY_VIDEOS":
+			return { ...videoState, history: action.payload };
+		case "POST_HISTORY_VIDEOS":
+			return { ...videoState, history: action.payload };
+		case "REMOVE_HISTORY_VIDEOS":
+			return { ...videoState, history: action.payload };
 		default:
 			return videoState;
 	}

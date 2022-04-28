@@ -13,8 +13,7 @@ export const CategoryCard = ({ category }) => {
 						type: "CATEGORY",
 						payload: category.categoryId,
 					});
-					console.log("sadf", category.categoryId);
-				}}	
+				}}
 				to="/explore"
 				className="categories__links"
 			>

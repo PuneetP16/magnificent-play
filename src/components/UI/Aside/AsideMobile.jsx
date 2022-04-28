@@ -29,6 +29,9 @@ export const AsideMobile = () => {
 				<Link to="/watchlater" className="nav__list_item">
 					<IcOutlineBookmarks />
 				</Link>
+				<Link to="/history" className="nav__list_item">
+					{bxIcons.history}
+				</Link>
 				<Link to="/profile" className="nav__list_item">
 					{bxIcons.userCircle}
 				</Link>

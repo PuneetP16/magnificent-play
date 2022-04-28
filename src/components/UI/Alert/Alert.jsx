@@ -1,14 +1,17 @@
 import { useEffect } from "react";
+import { useAlert } from "../../../contexts";
 import { bxIcons } from "../../../data/icons";
 import "./Alert.css";
 
-export const Alert = ({ alert, setAlert }) => {
+export const Alert = () => {
+	const { alert, setAlert } = useAlert();
 	const onClickHandler = () => {
 		setAlert((s) => ({
 			...s,
 			visibility: !s.visibility,
 		}));
 	};
+
 	const { text, visibility, type } = alert;
 
 	useEffect(() => {
@@ -23,16 +26,16 @@ export const Alert = ({ alert, setAlert }) => {
 	}, [setAlert, alert.visibility]);
 
 	return visibility ? (
-		<div className="alerts flex-col-align-center fw">
-			<div className={`alert ${type} alert--dismissable`}>
-				{text}
-				<button
-					onClick={onClickHandler}
-					className="btn btn--icon btn--close--transparent alert--btn__dismiss btn--circular"
-				>
-					{bxIcons.cross}
-				</button>
-			</div>
+		// <div className="alerts flex-col-align-center fw">
+		<div className={`alert ${type} alert--dismissable`}>
+			{text}
+			<button
+				onClick={onClickHandler}
+				className="btn btn--icon btn--close--transparent alert--btn__dismiss btn--circular"
+			>
+				{bxIcons.cross}
+			</button>
 		</div>
-	) : null;
+	) : // </div>
+	null;
 };

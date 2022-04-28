@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 import { useAxios } from "../customHooks";
 import { videoReducer } from "../reducers";
+import { useAlert } from "./alertContext";
 import { useAuth } from "./authContext";
 
 const VideoContext = createContext();
@@ -13,8 +14,11 @@ export const VideoProvider = ({ children }) => {
 		categories: [],
 		likes: [],
 		watchlater: [],
+		history: [],
 	};
-	
+
+	const { setAlert } = useAlert();
+
 	const { axiosRequest } = useAxios();
 	const { isAuth } = useAuth();
 	const [videoState, videoDispatch] = useReducer(
@@ -84,6 +88,23 @@ export const VideoProvider = ({ children }) => {
 
 			videoDispatch({
 				type: "GET_WATCHLATER_VIDEOS",
+				payload: output,
+			});
+		})();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isAuth]);
+
+	useEffect(() => {
+		(async () => {
+			const historyVideosURL = "/api/user/history";
+			const { output } = await axiosRequest({
+				method: "GET",
+				url: historyVideosURL,
+				resKey: "history",
+			});
+
+			videoDispatch({
+				type: "GET_HISTORY_VIDEOS",
 				payload: output,
 			});
 		})();
@@ -162,6 +183,43 @@ export const VideoProvider = ({ children }) => {
 		}
 	};
 
+	const addToHistoryVideos = async (axiosRequest, video) => {
+		try {
+			const historyVideosURL = "/api/user/history";
+			const { output } = await axiosRequest({
+				method: "POST",
+				url: historyVideosURL,
+				resKey: "history",
+				alert: "Added to history",
+				data: { video: video },
+			});
+			videoDispatch({
+				type: "POST_HISTORY_VIDEOS",
+				payload: output,
+			});
+		} catch (error) {
+			console.log("from addToHistoryVideos", error);
+		}
+	};
+
+	const removeFromHistoryVideos = async (axiosRequest, video) => {
+		const { _id } = video;
+		try {
+			const removeFromHistoryVideosURL = `/api/user/history/${_id}`;
+			const { output } = await axiosRequest({
+				method: "DELETE",
+				url: removeFromHistoryVideosURL,
+				resKey: "history",
+			});
+			videoDispatch({
+				type: "REMOVE_HISTORY_VIDEOS",
+				payload: output,
+			});
+		} catch (error) {
+			console.log("from removeFromHistoryVideos", error);
+		}
+	};
+
 	const value = {
 		videoState,
 		videoDispatch,
@@ -169,6 +227,8 @@ export const VideoProvider = ({ children }) => {
 		removeFromLikedVideos,
 		addToWatchLaterVideos,
 		removeFromWatchLaterVideos,
+		addToHistoryVideos,
+		removeFromHistoryVideos,
 	};
 
 	return (
