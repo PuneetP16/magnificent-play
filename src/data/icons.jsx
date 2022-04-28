@@ -26,4 +26,5 @@ export const bxIcons = {
 	likedThumb: <i className="bx bxs-like"></i>,
 	watchLater: <i className="bx bx-stopwatch"></i>,
 	watchLaterSelected: <i className="bx bxs-stopwatch"></i>,
+	history: <i className="bx bx-history"></i>,
 };

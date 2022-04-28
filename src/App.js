@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import "./responsive.css";
-import { Home, Like, Login, SignUp, WatchLater } from "./pages";
+import { Home, Like, Login, NotFound, SignUp, WatchLater } from "./pages";
 import { MockBee } from "./backend/mockdocs/MockBee";
 import { MockAPI } from "./backend/mockdocs/MockMan";
 import {
@@ -27,19 +27,22 @@ function App() {
 			return "not_found_page";
 		}
 		if (isAuthPage) {
-			return "auth";
+			return "body auth";
 		}
-		return "home";
+		return "body home";
 	};
 
 	return (
-		<div className={`App body ${injectPageCss()}`}>
-			<Header />
+		<div className={`App ${injectPageCss()}`}>
+			{pathname !== "/pagenotfound" && <Header />}
+
 			{isAuthPage || isNotFoundPage ? null : <Aside />}
-			<SearchBoxMobile />
+			{pathname !== "/pagenotfound" && <SearchBoxMobile />}
+			
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/explore" element={<Explore />} />
+				<Route path="/explore/search" element={<Explore />} />
 				<Route path="/like" element={<Like />} />
 				<Route path="/watchlater" element={<WatchLater />} />
 				<Route path="/mockbee" element={<MockBee />} />
@@ -53,6 +56,7 @@ function App() {
 					element={isAuth ? <Navigate to="/" replace /> : <SignUp />}
 				/>
 				<Route path="/loader" element={<Loader />} />
+				<Route path="/pagenotfound" element={<NotFound />} />
 				<Route path="*" element={<Navigate to="/pagenotfound" replace />} />
 			</Routes>
 			{isAuthPage || isNotFoundPage ? null : <AsideMobile />}
