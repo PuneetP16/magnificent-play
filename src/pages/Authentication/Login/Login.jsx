@@ -6,27 +6,20 @@ import {
 	InputTypeThree,
 	InputTypeTwo,
 } from "../../../components";
-import { useUser, useAuth, useLoader } from "../../../contexts";
+import { useUser, useAuth, useLoader, useAlert } from "../../../contexts";
 import { useDocumentTitle } from "../../../customHooks";
 import "./Login.css";
 import { signIn } from "../../../services";
 import { bxIcons } from "../../../data/icons";
 
 export const Login = () => {
-
 	useDocumentTitle("Login | MS");
 
 	const { loginData, userData, dispatch, initialFormState } = useUser();
 	const { toggleAuth } = useAuth();
 	const [rememberMe, setRememberMe] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
-
-	const [alert, setAlert] = useState({
-		visibility: false,
-		text: "",
-		type: "",
-	});
-
+	const { setAlert } = useAlert();
 	const { toggleLoader } = useLoader();
 
 	const toggleRememberMe = () => {
@@ -62,7 +55,6 @@ export const Login = () => {
 	return (
 		<main>
 			<div className="center">
-				<Alert alert={alert} setAlert={setAlert} />
 				<form onSubmit={onSubmitHandler} className="form flex" method="get">
 					<h2 className="h3">Login</h2>
 					<InputTypeOne

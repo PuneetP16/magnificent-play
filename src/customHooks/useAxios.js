@@ -1,29 +1,46 @@
 import axios from "axios";
-import { useAuth, useLoader } from "../contexts";
+import { useAlert, useAuth, useLoader } from "../contexts";
 
 export const useAxios = () => {
 	const { token } = useAuth();
 	const { toggleLoader } = useLoader();
+	const { setAlert } = useAlert();
 	let headers = {};
-	let output, response;
+	let output, response, error;
 
-	const axiosRequest = async ({ method, url, resKey, data = {} }) => {
+	const axiosRequest = async ({ method, url, resKey, data = {}, alert }) => {
 		headers = {
 			authorization: token,
 		};
 		try {
-			toggleLoader();
+			if (!alert) {
+				toggleLoader();
+			}
 			const res = await axios({ url, method, data, headers });
 			if (res.status === 200 || res.status === 201) {
 				response = res.data;
 				output = res.data[resKey];
+				if (!alert) {
+					toggleLoader();
+				}
+				if (alert) {
+					console.log({ alert });
+					setAlert((a) => ({
+						...a,
+						visibility: true,
+						text: alert,
+						type: "alert--success",
+					}));
+				}
+			}
+		} catch (err) {
+			error = err.response.data.errors[0];
+			console.log(error);
+			if (!alert) {
 				toggleLoader();
 			}
-		} catch (error) {
-			console.error(error.message);
-			toggleLoader();
 		}
-		return { output, response };
+		return { output, response, error };
 	};
 
 	return { axiosRequest };

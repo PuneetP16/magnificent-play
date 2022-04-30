@@ -6,6 +6,7 @@
 	border: 0.2px solid var(--COLOR-CARD-BOX-SHADOW3);
 	overflow: hidden;
 	border-radius: 8px;
+	position: relative;
 }
 
 .video_card__thumbnail {
@@ -75,4 +76,20 @@ html .body .video_card__nav_items button {
 .video_card__cta button {
 	padding: 4px;
 	width: 100%;
+}
+.card__dismiss {
+	display: grid;
+	place-content: center;
+	position: absolute;
+	color: var(--COLOR-PRIMARY);
+	top: 7px;
+	right: 6px;
+	backdrop-filter: blur(4px);
+	z-index: var(--z-index-3);
+	padding: 0;
+	background-color: var(--COLOR-WHITE);
+}
+
+html main .card__dismiss i {
+	font-size: 2.4rem;
 }

@@ -6,7 +6,7 @@ import {
 	InputTypeThree,
 	InputTypeTwo,
 } from "../../../components";
-import { useUser } from "../../../contexts";
+import { useAlert, useUser } from "../../../contexts";
 import { useDocumentTitle } from "../../../customHooks";
 import { bxIcons } from "../../../data/icons";
 import { signUp } from "../../../services";
@@ -28,11 +28,7 @@ export const SignUp = () => {
 
 	const { loginData, userData, dispatch } = useUser();
 
-	const [alert, setAlert] = useState({
-		visibility: false,
-		text: "",
-		type: "",
-	});
+	const { setAlert } = useAlert();
 
 	const navigate = useNavigate();
 	const toggleVisibility = () => {
@@ -78,7 +74,6 @@ export const SignUp = () => {
 	return (
 		<main>
 			<div className="center">
-				<Alert alert={alert} setAlert={setAlert} />
 				<form onSubmit={onSubmitHandler} className="form flex" method="get">
 					<h2 className="h3">Sign Up</h2>
 					<InputTypeOne

@@ -18,6 +18,7 @@ export const VideoCard = ({ video }) => {
 		removeFromLikedVideos,
 		removeFromWatchLaterVideos,
 		addToWatchLaterVideos,
+		removeFromHistoryVideos,
 	} = useVideo();
 
 	const {
@@ -45,18 +46,20 @@ export const VideoCard = ({ video }) => {
 		if (!isAuth) navigate("/login");
 	};
 
-	// console.log({
-	// 	_id,
-	// 	title,
-	// 	description,
-	// 	categoryId,
-	// 	channelId,
-	// 	channelTitle,
-	// 	publishedAt,
-	// 	tags,
-	// 	thumbnailURL,
-	// 	viewCount,
-	// });
+	const isHistoryPage = pathname === "/history";
+
+	console.log({
+		_id,
+		title,
+		description,
+		categoryId,
+		channelId,
+		channelTitle,
+		publishedAt,
+		tags,
+		thumbnailURL,
+		viewCount,
+	});
 
 	const toggleLikedVideo = () => {
 		navigateToLogin();
@@ -86,7 +89,7 @@ export const VideoCard = ({ video }) => {
 	return (
 		<article className="categories__list video_card ">
 			<section className="video_card__header">
-				<Link to="/">
+				<Link to={`/explore/${_id}`}>
 					<img
 						className="video_card__thumbnail image--responsive"
 						src={thumbnailURL}
@@ -137,8 +140,19 @@ export const VideoCard = ({ video }) => {
 					<div className="video_date">{getIndianDate(publishedAt)}</div>
 				</section>
 				<section className="video_card__cta">
-					<button className="btn btn--primary">Watch Now</button>
+					<Link to={`/explore/${_id}`} state={{ shouldPlay: true }}>
+						<button className="btn btn--primary">Watch Now</button>
+					</Link>
 				</section>
+				{isHistoryPage ? (
+					<div
+						class="card__dismiss dark btn btn--icon btn--close--transparent alert--btn__dismiss btn--circular"
+						title="remove from Watch History"
+						onClick={() => removeFromHistoryVideos(axiosRequest, video)}
+					>
+						{bxIcons.cross}
+					</div>
+				) : null}
 			</section>
 		</article>
 	);
