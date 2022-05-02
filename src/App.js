@@ -11,6 +11,8 @@ import {
 	WatchLater,
 	History,
 	SingleVideo,
+	Playlists,
+	PlaylistVideos,
 } from "./pages";
 import { MockBee } from "./backend/mockdocs/MockBee";
 import { MockAPI } from "./backend/mockdocs/MockMan";
@@ -59,6 +61,13 @@ function App() {
 				<Route path="/like" element={<Like />} />
 				<Route path="/watchlater" element={<WatchLater />} />
 				<Route path="/history" element={<History />} />
+				<Route path="/playlists" element={<Playlists />} />
+				<Route
+					path="/playlists/:playlistId"
+					element={
+						isAuth ? <PlaylistVideos /> : <Navigate to="/login" replace />
+					}
+				/>
 				<Route path="/mockbee" element={<MockBee />} />
 				<Route path="/mockman" element={<MockAPI />} />
 				<Route

@@ -11,13 +11,14 @@ export const useVideo = () => useContext(VideoContext);
 export const VideoProvider = ({ children }) => {
 	const initialVideoState = {
 		videos: [],
+		singleVideo: {},
 		categories: [],
 		likes: [],
 		watchlater: [],
 		history: [],
+		playlists: [],
+		playlist: {},
 	};
-
-	const { setAlert } = useAlert();
 
 	const { axiosRequest } = useAxios();
 	const { isAuth } = useAuth();
@@ -105,6 +106,23 @@ export const VideoProvider = ({ children }) => {
 
 			videoDispatch({
 				type: "GET_HISTORY_VIDEOS",
+				payload: output,
+			});
+		})();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isAuth]);
+
+	useEffect(() => {
+		(async () => {
+			const playlistsURL = "/api/user/playlists";
+			const { output } = await axiosRequest({
+				method: "GET",
+				url: playlistsURL,
+				resKey: "playlists",
+			});
+
+			videoDispatch({
+				type: "GET_PLAYLISTS",
 				payload: output,
 			});
 		})();
@@ -220,6 +238,102 @@ export const VideoProvider = ({ children }) => {
 		}
 	};
 
+	const addToPlaylists = async (axiosRequest, playlist) => {
+		try {
+			const playlistsURL = "/api/user/playlists";
+			const { output } = await axiosRequest({
+				method: "POST",
+				url: playlistsURL,
+				resKey: "playlists",
+				alert: "playlist created",
+				data: { playlist: playlist },
+			});
+			videoDispatch({
+				type: "POST_PLAYLIST",
+				payload: output,
+			});
+		} catch (error) {
+			console.log("from addToPlaylists", error);
+		}
+	};
+
+	const removeFromPlaylists = async (axiosRequest, playlist) => {
+		const { _id } = playlist;
+		try {
+			const playlistsURL = `/api/user/playlists/${_id}`;
+			const { output } = await axiosRequest({
+				method: "DELETE",
+				url: playlistsURL,
+				resKey: "playlists",
+			});
+			videoDispatch({
+				type: "REMOVE_PLAYLIST",
+				payload: output,
+			});
+		} catch (error) {
+			console.log("from removeFromPlaylists", error);
+		}
+	};
+
+	const getPlaylist = async (axiosRequest, playlistId) => {
+		console.log("from asycn", { playlistId });
+		try {
+			const playlistsURL = `/api/user/playlists/${playlistId}`;
+			const { output } = await axiosRequest({
+				method: "GET",
+				url: playlistsURL,
+				resKey: "playlist",
+			});
+			console.log({ output });
+			videoDispatch({
+				type: "GET_PLAYLIST",
+				payload: output,
+			});
+		} catch (error) {
+			console.log("from getPlaylist", error);
+		}
+	};
+
+	const addVideoToPlaylist = async (axiosRequest, _id, video) => {
+		try {
+			const playlistsURL = `/api/user/playlists/${_id}`;
+			const { output } = await axiosRequest({
+				method: "POST",
+				url: playlistsURL,
+				resKey: "playlist",
+				alert: "Added to playlist",
+				data: { video: video },
+			});
+			console.log("add", output);
+			videoDispatch({
+				type: "POST_VIDEO_IN_PLAYLIST",
+				payload: output,
+				playlistId: _id,
+			});
+		} catch (error) {
+			console.log("from addVideoToPlaylist", error);
+		}
+	};
+	const removeVideoFromPlaylist = async (axiosRequest, _id, video) => {
+		console.log("videoID", video._id);
+		try {
+			const playlistsURL = `/api/user/playlists/${_id}/${video._id}`;
+			const { output } = await axiosRequest({
+				method: "DELETE",
+				url: playlistsURL,
+				resKey: "playlist",
+			});
+			console.log("remove", output);
+			videoDispatch({
+				type: "REMOVE_VIDEO_FROM_PLAYLIST",
+				payload: output,
+				playlistId: _id,
+			});
+		} catch (error) {
+			console.log("from removeVideoFromPlaylist", error);
+		}
+	};
+
 	const value = {
 		videoState,
 		videoDispatch,
@@ -229,6 +343,11 @@ export const VideoProvider = ({ children }) => {
 		removeFromWatchLaterVideos,
 		addToHistoryVideos,
 		removeFromHistoryVideos,
+		addToPlaylists,
+		removeFromPlaylists,
+		addVideoToPlaylist,
+		removeVideoFromPlaylist,
+		getPlaylist,
 	};
 
 	return (

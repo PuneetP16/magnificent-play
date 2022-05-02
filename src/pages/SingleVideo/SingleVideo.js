@@ -1,4 +1,5 @@
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useAuth, useVideo } from "../../contexts";
 import { useAxios, useDocumentTitle } from "../../customHooks";
 import "./SingleVideo.css";
@@ -9,7 +10,9 @@ import {
 	getVideoDuration,
 } from "../../utilities/getFormattedData";
 import { bxIcons } from "../../data/icons";
-import { VideoListing } from "../../components";
+import { Modal, VideoListing } from "../../components";
+import { PlaylistPanel } from "../../components/PlaylistPanel/PlaylistPanel";
+
 export const SingleVideo = () => {
 	useDocumentTitle("Single Video | MS");
 	const { pathname } = useLocation();
@@ -17,10 +20,26 @@ export const SingleVideo = () => {
 	const navigate = useNavigate();
 
 	const { videoId } = useParams();
+	const { axiosRequest } = useAxios();
+	const [singleVideo, setSingleVideo] = useState();
+
+	useEffect(() => {
+		(async () => {
+			const videoURL = `/api/video/${videoId}`;
+			const { output } = await axiosRequest({
+				method: "GET",
+				url: videoURL,
+				resKey: "video",
+			});
+			console.log("single video", output);
+
+			setSingleVideo(output);
+		})();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [videoId]);
 
 	const location = useLocation();
 	const shouldPlay = location.state?.shouldPlay;
-	const { axiosRequest } = useAxios();
 
 	const {
 		videoState: { videos, history, likes, watchlater },
@@ -29,148 +48,169 @@ export const SingleVideo = () => {
 		removeFromWatchLaterVideos,
 		addToHistoryVideos,
 		addToWatchLaterVideos,
-		removeFromHistoryVideos,
 	} = useVideo();
 
 	const url = "https://www.youtube.com/watch?v=";
+	console.log("SINGLE", singleVideo);
 
 	const video = videos.find((video) => video._id === videoId);
 
 	const isHistoryPage = pathname === "/history";
 
-	const {
-		_id,
-		contentDetails: { duration },
-		snippet: {
-			categoryId,
-			channelId,
-			channelTitle,
-			description,
-			localized: { title },
-			publishedAt,
-			tags,
-			thumbnails: {
-				high: { url: thumbnailURL },
-			},
-		},
-		statistics: { viewCount },
-	} = video;
+	// console.log(singleVideo["snippet"], "check");
+
+	// if (singleVideo && singleVideo["contentDetails"]) {
+	// 	var {
+	// 		contentDetails: { duration },
+	// 		snippet: {
+	// 			channelTitle,
+	// 			description,
+	// 			localized: { title },
+	// 			publishedAt,
+	// 		},
+	// 		statistics: { viewCount },
+	// 	} = singleVideo;
+	// }
+
+	const duration = singleVideo?.contentDetails?.duration;
+	const description = singleVideo?.snippet?.description;
+	const channelTitle = singleVideo?.snippet?.channelTitle;
+	const publishedAt = singleVideo?.snippet?.publishedAt;
+	const title = singleVideo?.snippet?.localized.title;
+	const viewCount = singleVideo?.statistics?.viewCount;
 
 	const getLikeBtn = (() => {
 		if (pathname === "/like") return bxIcons.likedThumb;
-		return isVideoInList(video, likes) ? bxIcons.likedThumb : bxIcons.like;
+		return isVideoInList(singleVideo, likes)
+			? bxIcons.likedThumb
+			: bxIcons.like;
 	})();
 
 	const getWatchLaterBtn = (() => {
 		if (pathname === "/watchlater") return bxIcons.watchLaterSelected;
-		return isVideoInList(video, watchlater)
+		return isVideoInList(singleVideo, watchlater)
 			? bxIcons.watchLaterSelected
 			: bxIcons.watchLater;
 	})();
 
-	const navigateToLogin = () => {
-		if (!isAuth) navigate("/login");
-	};
-
 	const toggleLikedVideo = () => {
-		navigateToLogin();
-		isVideoInList(video, likes)
-			? removeFromLikedVideos(axiosRequest, video)
-			: addToLikedVideos(axiosRequest, video);
+		if (!isAuth) return navigate("/login");
+		isVideoInList(singleVideo, likes)
+			? removeFromLikedVideos(axiosRequest, singleVideo)
+			: addToLikedVideos(axiosRequest, singleVideo);
 	};
 	const toggleWatchLaterVideo = () => {
-		navigateToLogin();
-		isVideoInList(video, watchlater)
-			? removeFromWatchLaterVideos(axiosRequest, video)
-			: addToWatchLaterVideos(axiosRequest, video);
+		if (!isAuth) return navigate("/login");
+		isVideoInList(singleVideo, watchlater)
+			? removeFromWatchLaterVideos(axiosRequest, singleVideo)
+			: addToWatchLaterVideos(axiosRequest, singleVideo);
 	};
 
 	const onPlayHandler = () => {
-		addToHistoryVideos(axiosRequest, video);
+		addToHistoryVideos(axiosRequest, singleVideo);
 	};
 
 	const recommendedVideoList = videos.filter(
 		(vid) =>
-			vid.snippet.categoryId === video.snippet.categoryId &&
-			vid._id !== video._id
+			vid.snippet.categoryId === singleVideo?.snippet?.categoryId &&
+			vid._id !== singleVideo?._id
 	);
 
-	return (
-		<div className="home_page">
-			<main className="main--homepage single_video_page">
-				<section className="video__player_container">
-					<section className="video__player">
-						<ReactPlayer
-							url={url + videoId}
-							controls
-							onPlay={onPlayHandler}
-							playing={shouldPlay}
-							width="100%"
-							height="65vh"
-						/>
-					</section>
-					<section className="video_player__body">
-						<section className="video_player__text">
-							<div className="video__details_bar">
-								<h1 className="video_title" title={title}>
-									{title}
-								</h1>
-								<section className="video_card__nav">
-									<span className="video__duration">
-										Duration: {getVideoDuration(duration)}
-									</span>
-									<div className="video_card__nav_items">
-										<button
-											className="btn btn--primary btn--icon btn--round"
-											title={
-												isVideoInList(video, likes)
-													? "remove from like list"
-													: "Like"
-											}
-											onClick={toggleLikedVideo}
-										>
-											{getLikeBtn}
-										</button>
-										<button
-											className="btn btn--primary btn--icon btn--round"
-											title={
-												isVideoInList(video, watchlater)
-													? "remove from watch later"
-													: "Watch Later"
-											}
-											onClick={toggleWatchLaterVideo}
-										>
-											{getWatchLaterBtn}
-										</button>
-										<button
-											className="btn btn--primary btn--icon btn--round"
-											title="Playlist"
-										>
-											{bxIcons.playlist}
-										</button>
-									</div>
-								</section>
-							</div>
-							<h2 className="video_channel__title">{channelTitle}</h2>
-						</section>
+	const [showPlaylist, setShowPlaylist] = useState(false);
 
-						<section className="video_views_date">
-							<div className="video_views">{viewCount} Views</div>
-							<div className="video_date">{getIndianDate(publishedAt)}</div>
+	const togglePlaylistPanel = () => {
+		if (!isAuth) return navigate("/login");
+		setShowPlaylist((v) => !v);
+	};
+
+	return (
+		singleVideo && (
+			<div className="home_page">
+				<main className="main--homepage single_video_page">
+					<section className="video__player_container">
+						<section className="video__player">
+							<ReactPlayer
+								url={url + videoId}
+								controls
+								onPlay={onPlayHandler}
+								playing={shouldPlay}
+								width="100%"
+								height="65vh"
+							/>
 						</section>
-						<div className="video__description">
-							<span className="description_label">Description: </span>
-							{description}
-						</div>
+						<section className="video_player__body">
+							<section className="video_player__text">
+								<div className="video__details_bar">
+									<h1 className="video_title" title={title}>
+										{title}
+									</h1>
+									<section className="video_card__nav">
+										<span className="video__duration">
+											Duration: {getVideoDuration(duration)}
+										</span>
+										<div className="video_card__nav_items">
+											<button
+												className="btn btn--primary btn--icon btn--round"
+												title={
+													isVideoInList(singleVideo, likes)
+														? "remove from like list"
+														: "Like"
+												}
+												onClick={toggleLikedVideo}
+											>
+												{getLikeBtn}
+											</button>
+											<button
+												className="btn btn--primary btn--icon btn--round"
+												title={
+													isVideoInList(singleVideo, watchlater)
+														? "remove from watch later"
+														: "Watch Later"
+												}
+												onClick={toggleWatchLaterVideo}
+											>
+												{getWatchLaterBtn}
+											</button>
+											<button
+												className="btn btn--primary btn--icon btn--round playlist_icon"
+												title="Playlist"
+												onClick={togglePlaylistPanel}
+											>
+												{bxIcons.playlist}
+											</button>
+										</div>
+									</section>
+								</div>
+								<h2 className="video_channel__title">{channelTitle}</h2>
+							</section>
+
+							<section className="video_views_date">
+								<div className="video_views">{viewCount} Views</div>
+								<div className="video_date">{getIndianDate(publishedAt)}</div>
+							</section>
+							<div className="video__description">
+								<span className="description_label">Description: </span>
+								{description}
+							</div>
+						</section>
 					</section>
-				</section>
-				<section className="must_watch_container">
-					<h3 className="h3 section__heading">Must Watch</h3>
-					<ul className="video__items">
-						<VideoListing list={recommendedVideoList} />
-					</ul>
-				</section>
-			</main>
-		</div>
+					<section className="must_watch_container">
+						<h3 className="h3 section__heading">Must Watch</h3>
+						<ul className="video__items">
+							<VideoListing list={recommendedVideoList} />
+						</ul>
+					</section>
+					{showPlaylist ? (
+						<Modal setModalVisibility={setShowPlaylist}>
+							<PlaylistPanel
+								showPlaylist={showPlaylist}
+								togglePlaylistPanel={togglePlaylistPanel}
+								video={singleVideo}
+							/>
+						</Modal>
+					) : null}
+				</main>
+			</div>
+		)
 	);
 };

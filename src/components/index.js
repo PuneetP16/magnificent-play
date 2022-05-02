@@ -17,3 +17,4 @@ export { SearchBox } from "./UI/Header/SearchBox/SearchBox";
 export { SearchBoxMobile } from "./UI/Header/SearchBox/SearchBoxMobile";
 export { ThemeToggle } from "./UI/ThemeToggle/ThemeToggle";
 export { Filter } from "./Filter/Filter";
+export { PlaylistCard } from "./Cards/PlaylistCard/PlaylistCard";

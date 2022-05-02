@@ -1,4 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useAuth, useVideo } from "../../../contexts";
 import { useAxios } from "../../../customHooks";
 import { bxIcons } from "../../../data/icons";
@@ -8,6 +9,8 @@ import {
 	getVideoDuration,
 } from "../../../utilities/getFormattedData";
 import "./VideoCard.css";
+import { PlaylistPanel } from "../../PlaylistPanel/PlaylistPanel";
+import { Modal } from "../../UI/Modal/Modal";
 
 export const VideoCard = ({ video }) => {
 	const { pathname } = useLocation();
@@ -42,33 +45,34 @@ export const VideoCard = ({ video }) => {
 	const { axiosRequest } = useAxios();
 	const { isAuth } = useAuth();
 
-	const navigateToLogin = () => {
-		if (!isAuth) navigate("/login");
-	};
-
 	const isHistoryPage = pathname === "/history";
 
-	console.log({
-		_id,
-		title,
-		description,
-		categoryId,
-		channelId,
-		channelTitle,
-		publishedAt,
-		tags,
-		thumbnailURL,
-		viewCount,
-	});
+	// console.log({
+	// 	_id,
+	// 	title,
+	// 	description,
+	// 	categoryId,
+	// 	channelId,
+	// 	channelTitle,
+	// 	publishedAt,
+	// 	tags,
+	// 	thumbnailURL,
+	// 	viewCount,
+	// });
 
 	const toggleLikedVideo = () => {
-		navigateToLogin();
+		if (!isAuth)
+			return navigate("/login", {
+				state: { currVideo: video },
+			});
+
 		isVideoInList(video, likes)
 			? removeFromLikedVideos(axiosRequest, video)
 			: addToLikedVideos(axiosRequest, video);
 	};
+
 	const toggleWatchLaterVideo = () => {
-		navigateToLogin();
+		if (!isAuth) return navigate("/login");
 		isVideoInList(video, watchlater)
 			? removeFromWatchLaterVideos(axiosRequest, video)
 			: addToWatchLaterVideos(axiosRequest, video);
@@ -85,6 +89,13 @@ export const VideoCard = ({ video }) => {
 			? bxIcons.watchLaterSelected
 			: bxIcons.watchLater;
 	})();
+
+	const [showPlaylist, setShowPlaylist] = useState(false);
+
+	const togglePlaylistPanel = () => {
+		if (!isAuth) return navigate("/login");
+		setShowPlaylist((v) => !v);
+	};
 
 	return (
 		<article className="categories__list video_card ">
@@ -121,9 +132,11 @@ export const VideoCard = ({ video }) => {
 						>
 							{getWatchLaterBtn}
 						</button>
+
 						<button
-							className="btn btn--primary btn--icon btn--round"
+							className="btn btn--primary btn--icon btn--round playlist_icon"
 							title="Playlist"
+							onClick={togglePlaylistPanel}
 						>
 							{bxIcons.playlist}
 						</button>
@@ -146,7 +159,7 @@ export const VideoCard = ({ video }) => {
 				</section>
 				{isHistoryPage ? (
 					<div
-						class="card__dismiss dark btn btn--icon btn--close--transparent alert--btn__dismiss btn--circular"
+						className="card__dismiss dark btn btn--icon btn--close--transparent alert--btn__dismiss btn--circular"
 						title="remove from Watch History"
 						onClick={() => removeFromHistoryVideos(axiosRequest, video)}
 					>
@@ -154,6 +167,15 @@ export const VideoCard = ({ video }) => {
 					</div>
 				) : null}
 			</section>
+			{showPlaylist ? (
+				<Modal setModalVisibility={setShowPlaylist}>
+					<PlaylistPanel
+						showPlaylist={showPlaylist}
+						togglePlaylistPanel={togglePlaylistPanel}
+						video={video}
+					/>
+				</Modal>
+			) : null}
 		</article>
 	);
 };

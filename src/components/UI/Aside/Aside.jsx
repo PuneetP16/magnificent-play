@@ -21,7 +21,7 @@ export const Aside = () => {
 					<span className="nav__item">Explore</span>
 				</Link>
 
-				<Link to="/playlist" className="nav__list_item">
+				<Link to="/playlists" className="nav__list_item">
 					{bxIcons.playlist}
 					<span className="nav__item">Playlist</span>
 				</Link>

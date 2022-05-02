@@ -1,23 +1,19 @@
-import React from "react";
-import ReactDOM from "react-dom";
-
 import "./Modal.css";
 
-export const Modal = ({ palette, handleClick }) => {
-	return ReactDOM.createPortal(
-		<div className="note__palette_wrapper">
-			<ul className="note__palette">
-				{palette.map((c) => {
-					return (
-						<li
-							onClick={handleClick}
-							key={c.color}
-							className={c.className}
-						></li>
-					);
-				})}
-			</ul>
-		</div>,
-		document.getElementById("react__portal")
+export const Modal = ({ modalClass, setModalVisibility, children }) => {
+	const hideModal = (e) => {
+		if (e.target.classList.contains("modal__wrapper")) {
+			setModalVisibility(false);
+		}
+	};
+	return (
+		<div
+			className={`${
+				modalClass ? modalClass : "modal__wrapper"
+			} modal__wrapper_center_child`}
+			onClick={(e) => hideModal(e)}
+		>
+			{children}
+		</div>
 	);
 };
