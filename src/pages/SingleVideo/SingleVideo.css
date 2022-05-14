@@ -1,4 +1,4 @@
-.single_video_page {
+.home_page .single_video_page {
 	display: flex;
 	flex-flow: row wrap;
 }

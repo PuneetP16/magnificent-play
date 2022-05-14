@@ -18,6 +18,7 @@ export const useAxios = () => {
 			}
 			const res = await axios({ url, method, data, headers });
 			if (res.status === 200 || res.status === 201) {
+				console.log({ response });
 				response = res.data;
 				output = res.data[resKey];
 				if (!alert) {

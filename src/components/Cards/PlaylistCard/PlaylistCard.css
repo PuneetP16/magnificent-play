@@ -1,0 +1,33 @@
+.category_card__list {
+	position: relative;
+}
+
+.catergories__name {
+	/* background-color: var(--COLOR-PRIMARY); */
+	font-size: 2.5rem;
+	font-weight: 400;
+	opacity: 0.9;
+	color: var(--COLOR-WHITE);
+}
+
+.catergories__name:hover {
+	opacity: 1;
+}
+
+.category_card {
+	width: 25rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	aspect-ratio: 2/1;
+	border-radius: 8px;
+	background-color: var(--COLOR-PRIMARY);
+	opacity: 0.95;
+}
+.category_card:hover {
+	opacity: 1;
+}
+
+.playlist__card {
+	position: relative;;
+}
