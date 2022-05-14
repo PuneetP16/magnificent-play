@@ -24,20 +24,16 @@ export const usePlaylistAxios = ({ method, url, resKey, alert }) => {
 					toggleLoader();
 				}
 				const res = await axios({ url, method, headers });
-				console.log({ res });
 				if (res.status === 200 || res.status === 201) {
 					response = res.data;
-					console.log({ response });
 
 					setOutput(res.data[resKey]);
 
-					console.log( "playlist responded",response["playlist"] );
 
 					if (!alert) {
 						toggleLoader();
 					}
 					if (alert) {
-						console.log({ alert });
 						setAlert((a) => ({
 							...a,
 							visibility: true,

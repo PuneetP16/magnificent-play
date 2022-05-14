@@ -2,7 +2,7 @@ import React from "react";
 import "./Playlists.css";
 import { useDocumentTitle } from "../../customHooks";
 import { useVideo } from "../../contexts";
-import { CategoryListing, PlaylistCard, VideoListing } from "../../components";
+import { PlaylistCard } from "../../components";
 
 export const Playlists = () => {
 	useDocumentTitle("Playlists | MS");
@@ -10,7 +10,6 @@ export const Playlists = () => {
 		videoState: { playlists },
 	} = useVideo();
 
-	console.log({ playlists });
 	return (
 		<div className="home_page">
 			<main className="main--homepage">

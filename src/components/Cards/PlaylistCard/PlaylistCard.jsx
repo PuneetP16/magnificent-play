@@ -9,7 +9,6 @@ export const PlaylistCard = ({ playlist }) => {
 	const { videoDispatch, getPlaylist, playlists, removeFromPlaylists } =
 		useVideo();
 	const { axiosRequest } = useAxios();
-	console.log(playlist.videos);
 
 	return (
 		<li

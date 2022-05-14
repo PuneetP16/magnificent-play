@@ -30,7 +30,6 @@ export const PlaylistPanel = ({ togglePlaylistPanel, video }) => {
 		}));
 	};
 
-	console.log({ playlists });
 
 	const savePlaylist = (e) => {
 		e.preventDefault();

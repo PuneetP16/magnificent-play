@@ -26,7 +26,6 @@ export const Alert = () => {
 	}, [setAlert, alert.visibility]);
 
 	return visibility ? (
-		// <div className="alerts flex-col-align-center fw">
 		<div className={`alert ${type} alert--dismissable`}>
 			{text}
 			<button
@@ -36,6 +35,5 @@ export const Alert = () => {
 				{bxIcons.cross}
 			</button>
 		</div>
-	) : // </div>
-	null;
+	) : null;
 };

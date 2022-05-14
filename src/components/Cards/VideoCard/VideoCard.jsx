@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth, useVideo } from "../../../contexts";
 import { useAxios } from "../../../customHooks";
 import { bxIcons } from "../../../data/icons";
@@ -24,48 +24,22 @@ export const VideoCard = ({ video }) => {
 		removeFromHistoryVideos,
 	} = useVideo();
 
-	const {
-		_id,
-		contentDetails: { duration },
-		snippet: {
-			categoryId,
-			channelId,
-			channelTitle,
-			description,
-			localized: { title },
-			publishedAt,
-			tags,
-			thumbnails: {
-				high: { url: thumbnailURL },
-			},
-		},
-		statistics: { viewCount },
-	} = video;
+	const _id = video?._id;
+	const duration = video?.contentDetails?.duration;
+	const channelTitle = video?.snippet?.channelTitle;
+	const publishedAt = video?.snippet?.publishedAt;
+	const title = video?.snippet?.localized.title;
+	const viewCount = video?.statistics?.viewCount;
+	const thumbnailURL = video?.snippet?.thumbnails?.high?.url;
 
 	const { axiosRequest } = useAxios();
 	const { isAuth } = useAuth();
 
 	const isHistoryPage = pathname === "/history";
 
-	// console.log({
-	// 	_id,
-	// 	title,
-	// 	description,
-	// 	categoryId,
-	// 	channelId,
-	// 	channelTitle,
-	// 	publishedAt,
-	// 	tags,
-	// 	thumbnailURL,
-	// 	viewCount,
-	// });
-
 	const toggleLikedVideo = () => {
-		if (!isAuth)
-			return navigate("/login", {
-				state: { currVideo: video },
-			});
-
+		console.log(video, likes);
+		if (!isAuth) return navigate("/login");
 		isVideoInList(video, likes)
 			? removeFromLikedVideos(axiosRequest, video)
 			: addToLikedVideos(axiosRequest, video);
@@ -77,9 +51,14 @@ export const VideoCard = ({ video }) => {
 			? removeFromWatchLaterVideos(axiosRequest, video)
 			: addToWatchLaterVideos(axiosRequest, video);
 	};
+	useEffect(() => {
+		console.log({ video, likes, _id });
+	}, [likes]);
 
 	const getLikeBtn = (() => {
-		if (pathname === "/like") return bxIcons.likedThumb;
+		if (pathname === "/like") {
+			return bxIcons.likedThumb;
+		}
 		return isVideoInList(video, likes) ? bxIcons.likedThumb : bxIcons.like;
 	})();
 

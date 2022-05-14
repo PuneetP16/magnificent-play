@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth, useVideo } from "../../contexts";
 import { useAxios, useDocumentTitle } from "../../customHooks";
@@ -31,7 +31,6 @@ export const SingleVideo = () => {
 				url: videoURL,
 				resKey: "video",
 			});
-			console.log("single video", output);
 
 			setSingleVideo(output);
 		})();
@@ -42,7 +41,7 @@ export const SingleVideo = () => {
 	const shouldPlay = location.state?.shouldPlay;
 
 	const {
-		videoState: { videos, history, likes, watchlater },
+		videoState: { videos, likes, watchlater },
 		addToLikedVideos,
 		removeFromLikedVideos,
 		removeFromWatchLaterVideos,
@@ -51,26 +50,6 @@ export const SingleVideo = () => {
 	} = useVideo();
 
 	const url = "https://www.youtube.com/watch?v=";
-	console.log("SINGLE", singleVideo);
-
-	const video = videos.find((video) => video._id === videoId);
-
-	const isHistoryPage = pathname === "/history";
-
-	// console.log(singleVideo["snippet"], "check");
-
-	// if (singleVideo && singleVideo["contentDetails"]) {
-	// 	var {
-	// 		contentDetails: { duration },
-	// 		snippet: {
-	// 			channelTitle,
-	// 			description,
-	// 			localized: { title },
-	// 			publishedAt,
-	// 		},
-	// 		statistics: { viewCount },
-	// 	} = singleVideo;
-	// }
 
 	const duration = singleVideo?.contentDetails?.duration;
 	const description = singleVideo?.snippet?.description;
@@ -80,7 +59,9 @@ export const SingleVideo = () => {
 	const viewCount = singleVideo?.statistics?.viewCount;
 
 	const getLikeBtn = (() => {
-		if (pathname === "/like") return bxIcons.likedThumb;
+		if (pathname === "/like") {
+			return bxIcons.likedThumb;
+		}
 		return isVideoInList(singleVideo, likes)
 			? bxIcons.likedThumb
 			: bxIcons.like;
@@ -99,6 +80,7 @@ export const SingleVideo = () => {
 			? removeFromLikedVideos(axiosRequest, singleVideo)
 			: addToLikedVideos(axiosRequest, singleVideo);
 	};
+
 	const toggleWatchLaterVideo = () => {
 		if (!isAuth) return navigate("/login");
 		isVideoInList(singleVideo, watchlater)
@@ -122,6 +104,10 @@ export const SingleVideo = () => {
 		if (!isAuth) return navigate("/login");
 		setShowPlaylist((v) => !v);
 	};
+
+	useEffect(() => {
+		console.log(singleVideo, likes);
+	}, [likes]);
 
 	return (
 		singleVideo && (

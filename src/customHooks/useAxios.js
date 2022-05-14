@@ -18,14 +18,12 @@ export const useAxios = () => {
 			}
 			const res = await axios({ url, method, data, headers });
 			if (res.status === 200 || res.status === 201) {
-				console.log({ response });
 				response = res.data;
 				output = res.data[resKey];
 				if (!alert) {
 					toggleLoader();
 				}
 				if (alert) {
-					console.log({ alert });
 					setAlert((a) => ({
 						...a,
 						visibility: true,
@@ -35,8 +33,6 @@ export const useAxios = () => {
 				}
 			}
 		} catch (err) {
-			error = err.response.data.errors[0];
-			console.log(error);
 			if (!alert) {
 				toggleLoader();
 			}

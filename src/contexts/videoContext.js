@@ -276,7 +276,6 @@ export const VideoProvider = ({ children }) => {
 	};
 
 	const getPlaylist = async (axiosRequest, playlistId) => {
-		console.log("from asycn", { playlistId });
 		try {
 			const playlistsURL = `/api/user/playlists/${playlistId}`;
 			const { output } = await axiosRequest({
@@ -284,7 +283,6 @@ export const VideoProvider = ({ children }) => {
 				url: playlistsURL,
 				resKey: "playlist",
 			});
-			console.log({ output });
 			videoDispatch({
 				type: "GET_PLAYLIST",
 				payload: output,
@@ -304,7 +302,6 @@ export const VideoProvider = ({ children }) => {
 				alert: "Added to playlist",
 				data: { video: video },
 			});
-			console.log("add", output);
 			videoDispatch({
 				type: "POST_VIDEO_IN_PLAYLIST",
 				payload: output,
@@ -315,7 +312,6 @@ export const VideoProvider = ({ children }) => {
 		}
 	};
 	const removeVideoFromPlaylist = async (axiosRequest, _id, video) => {
-		console.log("videoID", video._id);
 		try {
 			const playlistsURL = `/api/user/playlists/${_id}/${video._id}`;
 			const { output } = await axiosRequest({
@@ -323,7 +319,6 @@ export const VideoProvider = ({ children }) => {
 				url: playlistsURL,
 				resKey: "playlist",
 			});
-			console.log("remove", output);
 			videoDispatch({
 				type: "REMOVE_VIDEO_FROM_PLAYLIST",
 				payload: output,

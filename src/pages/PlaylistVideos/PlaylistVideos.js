@@ -1,41 +1,23 @@
-import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { VideoListing } from "../../components";
 import { useVideo } from "../../contexts";
-import {
-	useAxios,
-	useDocumentTitle,
-	usePlaylistAxios,
-} from "../../customHooks";
+import { useDocumentTitle, usePlaylistAxios } from "../../customHooks";
 import "./PlaylistVideos.css";
 
 export const PlaylistVideos = () => {
 	useDocumentTitle("PlaylistVideos | MS");
 	const {
 		videoState: { playlists },
-		getPlaylist,
 	} = useVideo();
-	const { axiosRequest } = useAxios();
 	const { playlistId } = useParams();
 	const selectedPlaylist = playlists.find((plist) => plist._id === playlistId);
 	const playlistsURL = `/api/user/playlists/${playlistId}`;
-
-	// const getPlaylistHandler = () => {
-	// 	getPlaylist(axiosRequest, playlistId);
-	// };
-
-	// useEffect(() => {
-	// 	console.log("triggered");
-	// 	getPlaylist(axiosRequest, playlistId);
-	// }, [playlists]);
 
 	const { output } = usePlaylistAxios({
 		method: "GET",
 		url: playlistsURL,
 		resKey: "playlist",
 	});
-
-	console.log("from videoListing", { output });
 
 	const videos = output ? output.videos : selectedPlaylist?.videos;
 	return (

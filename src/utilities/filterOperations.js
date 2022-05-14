@@ -3,7 +3,6 @@ export const sortItByDate = (list, byLatest) => {
 	const data = [...list];
 
 	const ascending = (a, b) => {
-		console.log(a);
 		return new Date(a.snippet.publishedAt) - new Date(b.snippet.publishedAt);
 	};
 
