@@ -105,10 +105,6 @@ export const SingleVideo = () => {
 		setShowPlaylist((v) => !v);
 	};
 
-	useEffect(() => {
-		console.log(singleVideo, likes);
-	}, [likes]);
-
 	return (
 		singleVideo && (
 			<div className="home_page">

@@ -38,7 +38,6 @@ export const VideoCard = ({ video }) => {
 	const isHistoryPage = pathname === "/history";
 
 	const toggleLikedVideo = () => {
-		console.log(video, likes);
 		if (!isAuth) return navigate("/login");
 		isVideoInList(video, likes)
 			? removeFromLikedVideos(axiosRequest, video)
@@ -51,9 +50,6 @@ export const VideoCard = ({ video }) => {
 			? removeFromWatchLaterVideos(axiosRequest, video)
 			: addToWatchLaterVideos(axiosRequest, video);
 	};
-	useEffect(() => {
-		console.log({ video, likes, _id });
-	}, [likes]);
 
 	const getLikeBtn = (() => {
 		if (pathname === "/like") {
