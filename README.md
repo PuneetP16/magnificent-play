@@ -17,29 +17,49 @@ Magnificent Play is a Video Library App, where users can play binge-watch videos
 - JavaScript
 - ReactJS
 - Mockbee (for backend)
+
 ## Features and Functionalities
 
 ### 1. Landing page :
+
     - Banner that navigates to explore page
+    - Video Listing by Categories
+    - Trending Videos
 
 ### 2. Explore Videos page :
 
-    - 
+    - Listing all the videos
+    - Filter Functionality to filter by:
+        - Best Sixes, yorkers, funny moments or catches.
+    - Sort by Date latest or oldest.
+
 ### 3 Single Video Page:
 
-   
-    - 
+    - React Video Player
+    - Video Description.
+    - Must Watch related videos.
 
 ### 4. Playlist Page:
 
-    - 
+    - List all the playlist of the user.
+    - user can delete playlist from here.
+    - sub-page which lists all the videos belonging to that playlist,
 
 ### 5 Likes Page:
-    - 
+
+    - List all the videos liked by user.
+    - user can remove video from likes list
+
 ### 6 Watchlator Page:
-    - 
+
+    - List all the videos user wish to watch later.
+    - user can remove video from Watchlator list
+
 ### 7 History Page:
-    - 
+
+     - List all the videos watched by user.
+     - user can remove video from History list
+
 ### 8. Sign Up page -
 
     - Input first and last name
