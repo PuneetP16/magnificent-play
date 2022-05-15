@@ -8,7 +8,7 @@ Magnificent Play is a Video Library App, where users can play binge-watch videos
 
 ## Live App link
 
-- [Magnificent Quiz](https://magnificent-quiz.netlify.app/)
+- [Magnificent Play](https://magnificent-play.netlify.app/)
 
 ## Technologies used
 
