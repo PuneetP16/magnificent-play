@@ -6,8 +6,10 @@ import {
 	IcOutlineExplore,
 	PhHeartDuotone,
 } from "../../../data/Icon";
+import { useAuth } from "../../../contexts";
 
 export const AsideMobile = () => {
+	const { isAuth } = useAuth();
 	return (
 		<aside className="nav--mobile">
 			<ul className="nav__items--mobile ">
@@ -19,22 +21,26 @@ export const AsideMobile = () => {
 					<IcOutlineExplore />
 				</Link>
 
-				<Link to="/playlist" className="nav__list_item">
-					{bxIcons.playlist}
-				</Link>
+				{isAuth && (
+					<>
+						<Link to="/playlist" className="nav__list_item">
+							{bxIcons.playlist}
+						</Link>
 
-				<Link to="/like" className="nav__list_item">
-					<PhHeartDuotone />
-				</Link>
-				<Link to="/watchlater" className="nav__list_item">
-					<IcOutlineBookmarks />
-				</Link>
-				<Link to="/history" className="nav__list_item">
-					{bxIcons.history}
-				</Link>
-				<Link to="/profile" className="nav__list_item">
-					{bxIcons.userCircle}
-				</Link>
+						<Link to="/like" className="nav__list_item">
+							<PhHeartDuotone />
+						</Link>
+						<Link to="/watchlater" className="nav__list_item">
+							<IcOutlineBookmarks />
+						</Link>
+						<Link to="/history" className="nav__list_item">
+							{bxIcons.history}
+						</Link>
+						<Link to="/profile" className="nav__list_item">
+							{bxIcons.userCircle}
+						</Link>
+					</>
+				)}
 			</ul>
 		</aside>
 	);
