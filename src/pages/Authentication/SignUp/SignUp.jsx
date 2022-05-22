@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
 	InputTypeOne,
@@ -27,7 +28,8 @@ export const SignUp = () => {
 
 	const [signUpData, setSignUpData] = useState(initialSignUpData);
 
-	const { loginData, userData, dispatch } = useUser();
+	const { loginData, userData } = useSelector((state) => state.user);
+	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
 	const toggleVisibility = () => {

@@ -12,11 +12,13 @@ import {
 import { bxIcons } from "../../data/icons";
 import { Modal, VideoListing } from "../../components";
 import { PlaylistPanel } from "../../components/PlaylistPanel/PlaylistPanel";
+import { useHandler } from "../../customHooks/useHandler";
+import { useSelector } from "react-redux";
 
 export const SingleVideo = () => {
 	useDocumentTitle("Single Video | MS");
 	const { pathname } = useLocation();
-	const { isAuth } = useAuth();
+	const { isAuth } = useSelector((state) => state.auth);
 	const navigate = useNavigate();
 
 	const { videoId } = useParams();
@@ -40,14 +42,15 @@ export const SingleVideo = () => {
 	const location = useLocation();
 	const shouldPlay = location.state?.shouldPlay;
 
+	const { videos, watchLater, likes } = useSelector((state) => state.videos);
+
 	const {
-		videoState: { videos, likes, watchlater },
 		addToLikedVideos,
 		removeFromLikedVideos,
 		removeFromWatchLaterVideos,
 		addToHistoryVideos,
 		addToWatchLaterVideos,
-	} = useVideo();
+	} = useHandler();
 
 	const url = "https://www.youtube.com/watch?v=";
 
@@ -69,7 +72,7 @@ export const SingleVideo = () => {
 
 	const getWatchLaterBtn = (() => {
 		if (pathname === "/watchlater") return bxIcons.watchLaterSelected;
-		return isVideoInList(singleVideo, watchlater)
+		return isVideoInList(singleVideo, watchLater)
 			? bxIcons.watchLaterSelected
 			: bxIcons.watchLater;
 	})();
@@ -83,7 +86,7 @@ export const SingleVideo = () => {
 
 	const toggleWatchLaterVideo = () => {
 		if (!isAuth) return navigate("/login");
-		isVideoInList(singleVideo, watchlater)
+		isVideoInList(singleVideo, watchLater)
 			? removeFromWatchLaterVideos(axiosRequest, singleVideo)
 			: addToWatchLaterVideos(axiosRequest, singleVideo);
 	};
@@ -105,94 +108,92 @@ export const SingleVideo = () => {
 		setShowPlaylist((v) => !v);
 	};
 
-	return (
-		singleVideo && (
-			<div className="home_page">
-				<main className="main--homepage single_video_page">
-					<section className="video__player_container">
-						<section className="video__player">
-							<ReactPlayer
-								url={url + videoId}
-								controls
-								onPlay={onPlayHandler}
-								playing={shouldPlay}
-								width="100%"
-								height="65vh"
-							/>
-						</section>
-						<section className="video_player__body">
-							<section className="video_player__text">
-								<div className="video__details_bar">
-									<h1 className="video_title" title={title}>
-										{title}
-									</h1>
-									<section className="video_card__nav">
-										<span className="video__duration">
-											Duration: {getVideoDuration(duration)}
-										</span>
-										<div className="video_card__nav_items">
-											<button
-												className="btn btn--primary btn--icon btn--round"
-												title={
-													isVideoInList(singleVideo, likes)
-														? "remove from like list"
-														: "Like"
-												}
-												onClick={toggleLikedVideo}
-											>
-												{getLikeBtn}
-											</button>
-											<button
-												className="btn btn--primary btn--icon btn--round"
-												title={
-													isVideoInList(singleVideo, watchlater)
-														? "remove from watch later"
-														: "Watch Later"
-												}
-												onClick={toggleWatchLaterVideo}
-											>
-												{getWatchLaterBtn}
-											</button>
-											<button
-												className="btn btn--primary btn--icon btn--round playlist_icon"
-												title="Playlist"
-												onClick={togglePlaylistPanel}
-											>
-												{bxIcons.playlist}
-											</button>
-										</div>
-									</section>
-								</div>
-								<h2 className="video_channel__title">{channelTitle}</h2>
-							</section>
-
-							<section className="video_views_date">
-								<div className="video_views">{viewCount} Views</div>
-								<div className="video_date">{getIndianDate(publishedAt)}</div>
-							</section>
-							<div className="video__description">
-								<span className="description_label">Description: </span>
-								{description}
+	return singleVideo ? (
+		<div className="home_page">
+			<main className="main--homepage single_video_page">
+				<section className="video__player_container">
+					<section className="video__player">
+						<ReactPlayer
+							url={url + videoId}
+							controls
+							onPlay={onPlayHandler}
+							playing={shouldPlay}
+							width="100%"
+							height="65vh"
+						/>
+					</section>
+					<section className="video_player__body">
+						<section className="video_player__text">
+							<div className="video__details_bar">
+								<h1 className="video_title" title={title}>
+									{title}
+								</h1>
+								<section className="video_card__nav">
+									<span className="video__duration">
+										Duration: {getVideoDuration(duration)}
+									</span>
+									<div className="video_card__nav_items">
+										<button
+											className="btn btn--primary btn--icon btn--round"
+											title={
+												isVideoInList(singleVideo, likes)
+													? "remove from like list"
+													: "Like"
+											}
+											onClick={toggleLikedVideo}
+										>
+											{getLikeBtn}
+										</button>
+										<button
+											className="btn btn--primary btn--icon btn--round"
+											title={
+												isVideoInList(singleVideo, watchLater)
+													? "remove from watch later"
+													: "Watch Later"
+											}
+											onClick={toggleWatchLaterVideo}
+										>
+											{getWatchLaterBtn}
+										</button>
+										<button
+											className="btn btn--primary btn--icon btn--round playlist_icon"
+											title="Playlist"
+											onClick={togglePlaylistPanel}
+										>
+											{bxIcons.playlist}
+										</button>
+									</div>
+								</section>
 							</div>
+							<h2 className="video_channel__title">{channelTitle}</h2>
 						</section>
+
+						<section className="video_views_date">
+							<div className="video_views">{viewCount} Views</div>
+							<div className="video_date">{getIndianDate(publishedAt)}</div>
+						</section>
+						<div className="video__description">
+							<span className="description_label">Description: </span>
+							{description}
+						</div>
 					</section>
-					<section className="must_watch_container">
-						<h3 className="h3 section__heading">Must Watch</h3>
-						<ul className="video__items">
-							<VideoListing list={recommendedVideoList} />
-						</ul>
-					</section>
-					{showPlaylist ? (
-						<Modal setModalVisibility={setShowPlaylist}>
-							<PlaylistPanel
-								showPlaylist={showPlaylist}
-								togglePlaylistPanel={togglePlaylistPanel}
-								video={singleVideo}
-							/>
-						</Modal>
-					) : null}
-				</main>
-			</div>
-		)
-	);
+				</section>
+				<section className="must_watch_container">
+					<h3 className="h3 section__heading">Must Watch</h3>
+					<ul className="video__items">
+						<VideoListing list={recommendedVideoList} />
+					</ul>
+				</section>
+				{showPlaylist ? (
+					<Modal setModalVisibility={setShowPlaylist}>
+						<PlaylistPanel
+							showPlaylist={showPlaylist}
+							togglePlaylistPanel={togglePlaylistPanel}
+							video={singleVideo}
+						/>
+					</Modal>
+				) : null}
+			</main>
+		</div>
+	) : null;
 };

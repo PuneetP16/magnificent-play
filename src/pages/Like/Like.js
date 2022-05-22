@@ -1,13 +1,13 @@
+import { useSelector } from "react-redux";
 import { VideoListing } from "../../components";
-import { useVideo } from "../../contexts";
 import { useDocumentTitle } from "../../customHooks";
 import "./Like.css";
 
 export const Like = () => {
 	useDocumentTitle("Like | MS");
-	const {
-		videoState: { likes },
-	} = useVideo();
+
+	const likes = useSelector((state) => state.videos.likes);
+
 	return (
 		<div className="home_page">
 			<main className="main--homepage">

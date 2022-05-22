@@ -1,25 +1,18 @@
 import axios from "axios";
 import { Toast } from "../../components";
+import { authAction } from "../../store/authSlice";
+import { userAction } from "../../store/userSlice";
 
-export const signIn = async ({
-	loginData,
-	dispatch,
-	initialFormState,
-	toggleAuth,
-	rememberMe,
-	toggleLoader,
-	theme,
-}) => {
+export const signIn = async ({ loginData, toggleLoader, theme, dispatch }) => {
 	try {
 		toggleLoader();
-
 		const res = await axios.post("/api/auth/login", loginData);
 		if (res.status === 200) {
 			Toast("success", "Logged in Successfully", theme);
-
 			localStorage.setItem("videoToken", res.data.encodedToken);
 			setTimeout(() => {
-				toggleAuth();
+				dispatch(authAction.toggleAuth());
+				dispatch(authAction.setToken(res.data.encodedToken));
 			}, 1000);
 
 			const currentUserData = {
@@ -34,13 +27,8 @@ export const signIn = async ({
 				},
 			};
 
-			dispatch({
-				type: "HANDLE_SUBMIT",
-				initialFormState: rememberMe
-					? { loginData: { ...loginData } }
-					: initialFormState,
-				payload: currentUserData,
-			});
+			dispatch(userAction.submitHandler(currentUserData));
+
 			toggleLoader();
 		}
 
@@ -51,17 +39,9 @@ export const signIn = async ({
 			return;
 		}
 	} catch (error) {
-		console.log(error, "Invalid Credentials");
-		let msg = JSON.stringify(error);
-
-		let parsedMsg = JSON.parse(msg);
-		const alertText =
-			parsedMsg.status === 404
-				? "Email Address doesn't Exist, Please Signup"
-				: "Server Error, Try Again";
-
-		Toast("error", alertText, theme);
-
 		toggleLoader();
+		const errorText = error.response.data.errors[0];
+
+		Toast("error", errorText, theme);
 	}
 };

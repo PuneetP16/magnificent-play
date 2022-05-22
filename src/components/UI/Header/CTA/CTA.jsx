@@ -2,19 +2,22 @@ import "./CTA.css";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { ThemeToggle } from "../../ThemeToggle/ThemeToggle";
-import { useAlert, useAuth, useTheme } from "../../../../contexts";
+import { useTheme } from "../../../../contexts";
 import { Toast } from "../../Toast/Toast";
+import { useDispatch, useSelector } from "react-redux";
+import { authAction } from "../../../../store/authSlice";
 
 export const CTA = () => {
-	const { isAuth, toggleAuth } = useAuth();
+	let { isAuth } = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
 	const { pathname } = useLocation();
 	const { theme } = useTheme();
 
 	const logoutHandler = () => {
 		if (isAuth) {
 			localStorage.removeItem("videoToken");
-			toggleAuth();
-			Toast("success", "logged out successfully", theme);
+			dispatch(authAction.toggleAuth());
+			Toast("success", "Logged out successfully", theme);
 		}
 	};
 

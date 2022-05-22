@@ -5,27 +5,24 @@ import {
 	InputTypeThree,
 	InputTypeTwo,
 } from "../../../components";
-import {
-	useUser,
-	useAuth,
-	useLoader,
-	useTheme,
-} from "../../../contexts";
+import { useLoader, useTheme } from "../../../contexts";
 import { useDocumentTitle } from "../../../customHooks";
 import "./Login.css";
 import { signIn } from "../../../services";
 import { bxIcons } from "../../../data/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { userAction } from "../../../store/userSlice";
 
 export const Login = () => {
 	useDocumentTitle("Login | MS");
 
-	const { loginData, userData, dispatch, initialFormState } = useUser();
-	const { toggleAuth } = useAuth();
+	const { loginData, userData } = useSelector((state) => state.user);
+
 	const [rememberMe, setRememberMe] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
 	const { theme } = useTheme();
 	const { toggleLoader } = useLoader();
-
+	const dispatch = useDispatch();
 	const toggleRememberMe = () => {
 		setRememberMe((rememberMe) => !rememberMe);
 	};
@@ -35,24 +32,23 @@ export const Login = () => {
 	};
 
 	const onChangeHandler = (e) => {
-		dispatch({
-			type: "HANDLE_LOGIN_INPUT",
-			field: e.target.name,
-			payload: e.target.value,
-		});
+		dispatch(
+			userAction.userInputHandler({
+				field: e.target.name,
+				value: e.target.value,
+			})
+		);
 	};
 
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
 		signIn({
 			loginData,
-			dispatch,
-			initialFormState,
-			toggleAuth,
 			rememberMe,
 			toggleLoader,
 			userData,
 			theme,
+			dispatch,
 		});
 	};
 

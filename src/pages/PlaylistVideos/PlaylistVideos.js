@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { VideoListing } from "../../components";
 import { useVideo } from "../../contexts";
@@ -6,9 +7,8 @@ import "./PlaylistVideos.css";
 
 export const PlaylistVideos = () => {
 	useDocumentTitle("PlaylistVideos | MS");
-	const {
-		videoState: { playlists },
-	} = useVideo();
+	const playlists = useSelector((state) => state.videos.playlists);
+
 	const { playlistId } = useParams();
 	const selectedPlaylist = playlists.find((plist) => plist._id === playlistId);
 	const playlistsURL = `/api/user/playlists/${playlistId}`;

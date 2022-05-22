@@ -1,136 +1,11 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Toast } from "../components";
-import { useAxios } from "../customHooks";
-import { videoReducer } from "../reducers";
-import { useAlert } from "./alertContext";
-import { useAuth } from "./authContext";
-import { useTheme } from "./themeContext";
+import { useTheme } from "../contexts";
+import { videosAction } from "../store/videoSlice";
 
-const VideoContext = createContext();
-
-export const useVideo = () => useContext(VideoContext);
-
-export const VideoProvider = ({ children }) => {
-	const initialVideoState = {
-		videos: [],
-		singleVideo: {},
-		categories: [],
-		likes: [],
-		watchlater: [],
-		history: [],
-		playlists: [],
-		playlist: {},
-	};
-
+export const useHandler = () => {
 	const { theme } = useTheme();
-	const { axiosRequest } = useAxios();
-	const { isAuth } = useAuth();
-	const [videoState, videoDispatch] = useReducer(
-		videoReducer,
-		initialVideoState
-	);
-
-	useEffect(() => {
-		(async () => {
-			const videosURL = "/api/videos";
-			const { output } = await axiosRequest({
-				method: "GET",
-				url: videosURL,
-				resKey: "videos",
-			});
-
-			videoDispatch({
-				type: "GET_VIDEO",
-				payload: output,
-			});
-		})();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isAuth]);
-
-	useEffect(() => {
-		(async () => {
-			const categoriesURL = "/api/categories";
-			const { output } = await axiosRequest({
-				method: "GET",
-				url: categoriesURL,
-				resKey: "categories",
-			});
-
-			videoDispatch({
-				type: "GET_CATEGORIES",
-				payload: output,
-			});
-		})();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isAuth]);
-
-	useEffect(() => {
-		(async () => {
-			const likedVideosURL = "/api/user/likes";
-			const { output } = await axiosRequest({
-				method: "GET",
-				url: likedVideosURL,
-				resKey: "likes",
-			});
-
-			videoDispatch({
-				type: "GET_LIKED_VIDEOS",
-				payload: output,
-			});
-		})();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isAuth]);
-
-	useEffect(() => {
-		(async () => {
-			const watchLaterVideosURL = "/api/user/watchlater";
-			const { output } = await axiosRequest({
-				method: "GET",
-				url: watchLaterVideosURL,
-				resKey: "watchlater",
-			});
-
-			videoDispatch({
-				type: "GET_WATCHLATER_VIDEOS",
-				payload: output,
-			});
-		})();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isAuth]);
-
-	useEffect(() => {
-		(async () => {
-			const historyVideosURL = "/api/user/history";
-			const { output } = await axiosRequest({
-				method: "GET",
-				url: historyVideosURL,
-				resKey: "history",
-			});
-
-			videoDispatch({
-				type: "GET_HISTORY_VIDEOS",
-				payload: output,
-			});
-		})();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isAuth]);
-
-	useEffect(() => {
-		(async () => {
-			const playlistsURL = "/api/user/playlists";
-			const { output } = await axiosRequest({
-				method: "GET",
-				url: playlistsURL,
-				resKey: "playlists",
-			});
-
-			videoDispatch({
-				type: "GET_PLAYLISTS",
-				payload: output,
-			});
-		})();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isAuth]);
+	const dispatch = useDispatch();
 
 	const addToLikedVideos = async (axiosRequest, video) => {
 		try {
@@ -143,10 +18,7 @@ export const VideoProvider = ({ children }) => {
 			});
 
 			if (!!output) {
-				videoDispatch({
-					type: "POST_LIKED_VIDEOS",
-					payload: output,
-				});
+				dispatch(videosAction.toggleVideoFromLikes(output));
 				Toast("success", "Added to Liked List", theme);
 			} else {
 				Toast("warning", error.response.data.errors[0], theme);
@@ -167,10 +39,8 @@ export const VideoProvider = ({ children }) => {
 			});
 
 			if (!!output) {
-				videoDispatch({
-					type: "REMOVE_LIKED_VIDEOS",
-					payload: output,
-				});
+				dispatch(videosAction.toggleVideoFromLikes(output));
+
 				Toast("success", "Removed From Liked List", theme);
 			} else {
 				Toast("warning", error.response.data.errors[0], theme);
@@ -191,10 +61,8 @@ export const VideoProvider = ({ children }) => {
 			});
 
 			if (!!output) {
-				videoDispatch({
-					type: "POST_WATCHLATER_VIDEOS",
-					payload: output,
-				});
+				dispatch(videosAction.toggleVideoFromWatchLater(output));
+
 				Toast("success", "Added to watch later List", theme);
 			} else {
 				Toast("warning", error.response.data.errors[0], theme);
@@ -215,10 +83,8 @@ export const VideoProvider = ({ children }) => {
 			});
 
 			if (!!output) {
-				videoDispatch({
-					type: "REMOVE_WATCHLATER_VIDEOS",
-					payload: output,
-				});
+				dispatch(videosAction.toggleVideoFromWatchLater(output));
+
 				Toast("success", "Removed From watch later List", theme);
 			} else {
 				Toast("warning", error.response.data.errors[0], theme);
@@ -231,7 +97,7 @@ export const VideoProvider = ({ children }) => {
 	const addToHistoryVideos = async (axiosRequest, video) => {
 		try {
 			const historyVideosURL = "/api/user/history";
-			const { output, error } = await axiosRequest({
+			const { output } = await axiosRequest({
 				method: "POST",
 				url: historyVideosURL,
 				resKey: "history",
@@ -239,10 +105,8 @@ export const VideoProvider = ({ children }) => {
 			});
 
 			if (!!output) {
-				videoDispatch({
-					type: "POST_HISTORY_VIDEOS",
-					payload: output,
-				});
+				dispatch(videosAction.toggleVideoFromHistory(output));
+
 				Toast("success", "Added to History", theme);
 			}
 		} catch (error) {
@@ -261,10 +125,8 @@ export const VideoProvider = ({ children }) => {
 			});
 
 			if (!!output) {
-				videoDispatch({
-					type: "REMOVE_HISTORY_VIDEOS",
-					payload: output,
-				});
+				dispatch(videosAction.toggleVideoFromHistory(output));
+
 				Toast("success", "Removed from History", theme);
 			} else {
 				Toast("warning", error.response.data.errors[0], theme);
@@ -275,24 +137,22 @@ export const VideoProvider = ({ children }) => {
 	};
 
 	const addToPlaylists = async (axiosRequest, playlist, video) => {
-		const title = playlist.title;
+		const id = playlist.id;
 		try {
 			const playlistsURL = "/api/user/playlists";
 			const { output, error } = await axiosRequest({
 				method: "POST",
 				url: playlistsURL,
 				resKey: "playlists",
-				alert: "playlist created",
 				data: { playlist: playlist },
 			});
 
 			if (!!output) {
-				var { _id } = output.find((play) => play.title === title);
-				videoDispatch({
-					type: "POST_PLAYLIST",
-					payload: output,
-				});
-				Toast("success", `Playlist named: "${title}" created`, theme);
+				var { _id } = output.find((play) => play.id === id);
+
+				dispatch(videosAction.togglePlaylistFromPlaylists(output));
+
+				Toast("success", `Playlist named: "${playlist.title}" created`, theme);
 				addVideoToPlaylist(axiosRequest, _id, video);
 			} else {
 				Toast("warning", error.response.data.errors[0], theme);
@@ -313,34 +173,9 @@ export const VideoProvider = ({ children }) => {
 			});
 
 			if (!!output) {
-				videoDispatch({
-					type: "REMOVE_PLAYLIST",
-					payload: output,
-				});
-				Toast("success", `Removed from Playlis`, theme);
-			} else {
-				Toast("warning", error.response.data.errors[0], theme);
-			}
-		} catch (error) {
-			Toast("warning", error.message, theme);
-		}
-	};
+				dispatch(videosAction.togglePlaylistFromPlaylists(output));
 
-	const getPlaylist = async (axiosRequest, playlistId) => {
-		try {
-			const playlistsURL = `/api/user/playlists/${playlistId}`;
-			const { output, error } = await axiosRequest({
-				method: "GET",
-				url: playlistsURL,
-				resKey: "playlist",
-			});
-
-			if (!!output) {
-				videoDispatch({
-					type: "GET_PLAYLIST",
-					payload: output,
-				});
-				Toast("success", "Fetching... playlist", theme);
+				Toast("success", `Removed from Playlists`, theme);
 			} else {
 				Toast("warning", error.response.data.errors[0], theme);
 			}
@@ -356,18 +191,19 @@ export const VideoProvider = ({ children }) => {
 				method: "POST",
 				url: playlistsURL,
 				resKey: "playlist",
-				alert: "Added to playlist",
 				data: { video: video },
 			});
 
 			if (!!output) {
-				console.log(output);
 				var { title } = output;
-				videoDispatch({
-					type: "POST_VIDEO_IN_PLAYLIST",
-					payload: output,
-					playlistId: _id,
-				});
+
+				dispatch(
+					videosAction.toggleVideoFronPlaylist({
+						id: _id,
+						playlist: output,
+					})
+				);
+
 				Toast("success", `Added video in Playlist: "${title}"`, theme);
 			} else {
 				Toast("warning", error.response.data.errors[0], theme);
@@ -387,11 +223,13 @@ export const VideoProvider = ({ children }) => {
 
 			if (!!output) {
 				var { title } = output;
-				videoDispatch({
-					type: "REMOVE_VIDEO_FROM_PLAYLIST",
-					payload: output,
-					playlistId: _id,
-				});
+
+				dispatch(
+					videosAction.toggleVideoFronPlaylist({
+						id: _id,
+						playlist: output,
+					})
+				);
 				Toast("success", `Removed video from Playlist: "${title}"`, theme);
 			} else {
 				Toast("warning", error.response.data.errors[0], theme);
@@ -401,9 +239,7 @@ export const VideoProvider = ({ children }) => {
 		}
 	};
 
-	const value = {
-		videoState,
-		videoDispatch,
+	return {
 		addToLikedVideos,
 		removeFromLikedVideos,
 		addToWatchLaterVideos,
@@ -414,10 +250,5 @@ export const VideoProvider = ({ children }) => {
 		removeFromPlaylists,
 		addVideoToPlaylist,
 		removeVideoFromPlaylist,
-		getPlaylist,
 	};
-
-	return (
-		<VideoContext.Provider value={value}>{children}</VideoContext.Provider>
-	);
 };

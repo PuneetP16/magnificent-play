@@ -17,7 +17,6 @@ import {
 import { MockBee } from "./backend/mockdocs/MockBee";
 import { MockAPI } from "./backend/mockdocs/MockMan";
 import {
-	Alert,
 	Aside,
 	AsideMobile,
 	Footer,
@@ -27,11 +26,11 @@ import {
 } from "./components";
 import { useAlert, useAuth, useLoader } from "./contexts";
 import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
 
 function App() {
 	const { pathname } = useLocation();
-	const { alert } = useAlert();
-	const { isAuth } = useAuth();
+	const { isAuth } = useSelector((state) => state.auth);
 	const { loader } = useLoader();
 	const isAuthPage = pathname === "/login" || pathname === "/signup";
 	const isNotFoundPage = pathname === "/pagenotfound";
@@ -51,7 +50,6 @@ function App() {
 			<ToastContainer />
 
 			<div className={`App ${injectPageCss()}`}>
-				{alert.visibility && <Alert />}
 				{pathname !== "/pagenotfound" && <Header />}
 
 				{isAuthPage || isNotFoundPage ? null : <Aside />}
