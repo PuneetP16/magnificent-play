@@ -26,6 +26,7 @@ import {
 	SearchBoxMobile,
 } from "./components";
 import { useAlert, useAuth, useLoader } from "./contexts";
+import { ToastContainer } from "react-toastify";
 
 function App() {
 	const { pathname } = useLocation();
@@ -46,48 +47,51 @@ function App() {
 	};
 
 	return (
-		<div className={`App ${injectPageCss()}`}>
-			{alert.visibility && <Alert />}
-			{pathname !== "/pagenotfound" && <Header />}
+		<>
+			<ToastContainer />
 
-			{isAuthPage || isNotFoundPage ? null : <Aside />}
-			{pathname !== "/pagenotfound" && <SearchBoxMobile />}
+			<div className={`App ${injectPageCss()}`}>
+				{alert.visibility && <Alert />}
+				{pathname !== "/pagenotfound" && <Header />}
 
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/explore" element={<Explore />} />
-				<Route path="/explore/:videoId" element={<SingleVideo />} />
-				<Route path="/explore/search" element={<Explore />} />
-				<Route path="/like" element={<Like />} />
-				<Route path="/watchlater" element={<WatchLater />} />
-				<Route path="/history" element={<History />} />
-				<Route path="/playlists" element={<Playlists />} />
-				<Route
-					path="/playlists/:playlistId"
-					element={
-						isAuth ? <PlaylistVideos /> : <Navigate to="/login" replace />
-					}
-				/>
-				<Route path="/mockbee" element={<MockBee />} />
-				<Route path="/mockman" element={<MockAPI />} />
-				<Route
-					path="/login"
-					element={isAuth ? <Navigate to="/" replace /> : <Login />}
-				/>
-				<Route
-					path="/signup"
-					element={isAuth ? <Navigate to="/" replace /> : <SignUp />}
-				/>
-				<Route path="/loader" element={<Loader />} />
-				<Route path="/pagenotfound" element={<NotFound />} />
-				<Route path="*" element={<Navigate to="/pagenotfound" replace />} />
-			</Routes>
-			{isAuthPage || isNotFoundPage ? null : <AsideMobile />}
-			{(pathname !== "/pagenotfound" || (pathname !== "/login" && loader)) && (
-				<Footer />
-			)}
-			{loader && <Loader />}
-		</div>
+				{isAuthPage || isNotFoundPage ? null : <Aside />}
+				{pathname !== "/pagenotfound" && <SearchBoxMobile />}
+
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/explore" element={<Explore />} />
+					<Route path="/explore/:videoId" element={<SingleVideo />} />
+					<Route path="/explore/search" element={<Explore />} />
+					<Route path="/like" element={<Like />} />
+					<Route path="/watchlater" element={<WatchLater />} />
+					<Route path="/history" element={<History />} />
+					<Route path="/playlists" element={<Playlists />} />
+					<Route
+						path="/playlists/:playlistId"
+						element={
+							isAuth ? <PlaylistVideos /> : <Navigate to="/login" replace />
+						}
+					/>
+					<Route path="/mockbee" element={<MockBee />} />
+					<Route path="/mockman" element={<MockAPI />} />
+					<Route
+						path="/login"
+						element={isAuth ? <Navigate to="/" replace /> : <Login />}
+					/>
+					<Route
+						path="/signup"
+						element={isAuth ? <Navigate to="/" replace /> : <SignUp />}
+					/>
+					<Route path="/loader" element={<Loader />} />
+					<Route path="/pagenotfound" element={<NotFound />} />
+					<Route path="*" element={<Navigate to="/pagenotfound" replace />} />
+				</Routes>
+				{isAuthPage || isNotFoundPage ? null : <AsideMobile />}
+				{(pathname !== "/pagenotfound" ||
+					(pathname !== "/login" && loader)) && <Footer />}
+				{loader && <Loader />}
+			</div>
+		</>
 	);
 }
 

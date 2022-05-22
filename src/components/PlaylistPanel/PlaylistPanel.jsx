@@ -30,12 +30,10 @@ export const PlaylistPanel = ({ togglePlaylistPanel, video }) => {
 		}));
 	};
 
-
 	const savePlaylist = (e) => {
 		e.preventDefault();
 		if (playlistObj.title) {
-			addToPlaylists(axiosRequest, playlistObj);
-
+			addToPlaylists(axiosRequest, playlistObj, video);
 			setPlaylistObj(initialPlaylist);
 		}
 	};

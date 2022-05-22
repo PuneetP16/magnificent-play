@@ -18,23 +18,23 @@ export const MagnificentProvider = ({ children }) => {
 	return (
 		<MagnificentContext.Provider value={value}>
 			<BrowserRouter>
-				<FilterProvider>
-					<LoaderProvider>
-						<AlertProvider>
-							<ScrollToTopProvider>
-								<AuthProvider>
-									<VideoProvider>
-										<UserProvider>
-											<ThemeProvider>
+				<ThemeProvider>
+					<FilterProvider>
+						<LoaderProvider>
+							<AlertProvider>
+								<ScrollToTopProvider>
+									<AuthProvider>
+										<VideoProvider>
+											<UserProvider>
 												<LoaderProvider>{children}</LoaderProvider>
-											</ThemeProvider>
-										</UserProvider>
-									</VideoProvider>
-								</AuthProvider>
-							</ScrollToTopProvider>
-						</AlertProvider>
-					</LoaderProvider>
-				</FilterProvider>
+											</UserProvider>
+										</VideoProvider>
+									</AuthProvider>
+								</ScrollToTopProvider>
+							</AlertProvider>
+						</LoaderProvider>
+					</FilterProvider>
+				</ThemeProvider>
 			</BrowserRouter>
 		</MagnificentContext.Provider>
 	);

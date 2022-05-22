@@ -5,7 +5,12 @@ import {
 	InputTypeThree,
 	InputTypeTwo,
 } from "../../../components";
-import { useUser, useAuth, useLoader, useAlert } from "../../../contexts";
+import {
+	useUser,
+	useAuth,
+	useLoader,
+	useTheme,
+} from "../../../contexts";
 import { useDocumentTitle } from "../../../customHooks";
 import "./Login.css";
 import { signIn } from "../../../services";
@@ -18,7 +23,7 @@ export const Login = () => {
 	const { toggleAuth } = useAuth();
 	const [rememberMe, setRememberMe] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
-	const { setAlert } = useAlert();
+	const { theme } = useTheme();
 	const { toggleLoader } = useLoader();
 
 	const toggleRememberMe = () => {
@@ -44,10 +49,10 @@ export const Login = () => {
 			dispatch,
 			initialFormState,
 			toggleAuth,
-			setAlert,
 			rememberMe,
 			toggleLoader,
 			userData,
+			theme,
 		});
 	};
 

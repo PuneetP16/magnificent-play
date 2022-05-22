@@ -1,25 +1,21 @@
 import axios from "axios";
+import { Toast } from "../../components";
 
 export const signIn = async ({
 	loginData,
 	dispatch,
 	initialFormState,
 	toggleAuth,
-	setAlert,
 	rememberMe,
 	toggleLoader,
+	theme,
 }) => {
 	try {
 		toggleLoader();
 
 		const res = await axios.post("/api/auth/login", loginData);
 		if (res.status === 200) {
-			setAlert((a) => ({
-				...a,
-				text: "Logging in...",
-				type: "alert--success",
-				visibility: true,
-			}));
+			Toast("success", "Logged in Successfully", theme);
 
 			localStorage.setItem("videoToken", res.data.encodedToken);
 			setTimeout(() => {
@@ -49,12 +45,8 @@ export const signIn = async ({
 		}
 
 		if (res.status === 201) {
-			setAlert((a) => ({
-				...a,
-				text: "Invalid Password, Try Again",
-				type: "alert--danger",
-				visibility: true,
-			}));
+			Toast("error", "Invalid Password, Try Again", theme);
+
 			toggleLoader();
 			return;
 		}
@@ -68,12 +60,8 @@ export const signIn = async ({
 				? "Email Address doesn't Exist, Please Signup"
 				: "Server Error, Try Again";
 
-		setAlert((a) => ({
-			...a,
-			text: alertText,
-			type: "alert--danger",
-			visibility: true,
-		}));
+		Toast("error", alertText, theme);
+
 		toggleLoader();
 	}
 };

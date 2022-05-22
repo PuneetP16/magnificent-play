@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Toast } from "../../components";
 
 export const signUp = async ({
 	signUpData,
@@ -6,6 +7,7 @@ export const signUp = async ({
 	loginData,
 	userData,
 	dispatch,
+	theme,
 }) => {
 	try {
 		const res = await axios.post("/api/auth/signup", signUpData);
@@ -21,8 +23,9 @@ export const signUp = async ({
 				},
 			});
 			navigate("/login");
+			Toast("success", "Successfully created account, just login", theme);
 		}
 	} catch (error) {
-		console.log(error, "Invalid Credentials");
+		Toast("error", error.message, theme);
 	}
 };
