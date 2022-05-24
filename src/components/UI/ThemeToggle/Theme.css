@@ -1,6 +1,7 @@
 html[current_theme="light"] {
 	--COLOR-BG: #e6f0ff;
 	--COLOR-TXT: #000000;
+	--COLOR-TXT-OPP: white;
 	--COLOR-TXT-PRIMARY: #2255a4;
 	--COLOR-PRIMARY-THEME: #2255a4;
 	--COLOR-PRIMARY-OPP: white;
@@ -11,6 +12,7 @@ html[current_theme="light"] {
 	--COLOR-PRIMARY-DARK-OPP: #e6f0ff;
 	--COLOR-CARD-BOX-SHADOW0: rgb(0 0 0 / 20%);
 	--COLOR-CARD-BOX-SHADOW1: rgba(0, 0, 0, 0.56);
+	--COLOR-CARD-BOX-SHADOW1: #0000001f;
 	--COLOR-CARD-BOX-SHADOW2: #32325d1a;
 	--COLOR-CARD-BOX-SHADOW3: #324dc549;
 	--CARD-BOX-SHADOW: 0px 5px 20px 0px var(--COLOR-CARD-BOX-SHADOW1);
@@ -30,6 +32,7 @@ html[current_theme="light"] {
 html[current_theme="dark"] {
 	--COLOR-BG: #172842;
 	--COLOR-TXT: white;
+	--COLOR-TXT-OPP: #000000;
 	--COLOR-TXT-PRIMARY: #c6ddff;
 	--COLOR-PRIMARY-THEME: white;
 	--COLOR-PRIMARY-DARK-THEME: #e6f0ff;
@@ -39,6 +42,7 @@ html[current_theme="dark"] {
 	--COLOR-PRIMARY-DARK-OPP: #163d77;
 	--COLOR-CARD-BOX-SHADOW0: rgb(0 0 0 / 20%);
 	--COLOR-CARD-BOX-SHADOW1: #ccd9faa9;
+	--COLOR-CARD-BOX-SHADOW1: #4b536766;
 	--COLOR-CARD-BOX-SHADOW2: #32325d1a;
 	--COLOR-CARD-BOX-SHADOW3: #324dc549;
 	--CARD-BOX-SHADOW: 0px 1px 1px 2px var(--COLOR-CARD-BOX-SHADOW1);

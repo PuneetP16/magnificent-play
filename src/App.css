@@ -6,7 +6,7 @@
 	min-height: 100vh;
 	transition: all 0.3s ease-in;
 	grid-template-columns: 26rem 1fr;
-	grid-template-rows: 5.5rem 1fr 5.2rem;
+	grid-template-rows: 6rem 1fr 5.2rem;
 	grid-template-areas:
 		"header header"
 		"aside main"
@@ -19,7 +19,7 @@
 	min-height: 100vh;
 	transition: all 0.3s ease-in;
 	grid-template-columns: 26rem 1fr;
-	grid-template-rows: 5.5rem 1fr 5.2rem;
+	grid-template-rows: 6rem 1fr 5.2rem;
 	grid-template-areas:
 		"header header"
 		"aside main"
@@ -28,7 +28,7 @@
 
 .auth {
 	grid-template-columns: 1fr;
-	grid-template-rows: 5.5rem 1fr 5.2rem;
+	grid-template-rows: 6rem 1fr 5.2rem;
 	grid-template-areas:
 		"header"
 		"main"

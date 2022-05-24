@@ -100,7 +100,10 @@ a {
 
 .form__item i {
 	position: absolute;
-	right: 2px;
+	right: 1rem;
+	top: 3.1rem;
+	font-size: 2.5rem;
+	cursor: pointer;
 }
 
 .checkbox {
@@ -155,18 +158,5 @@ a {
 	position: relative;
 }
 
-.form__item .btn--icon {
-	position: absolute;
-	right: 4px;
-	top: 42px;
-	border: none;
-	color: var(--COLOR-PRIMARY);
-}
-
 @media only screen and (max-width: 780px) {
-	.form__item .btn--icon {
-		position: absolute;
-		right: 4px;
-		top: 33px;
-	}
 }

@@ -28,9 +28,7 @@ export const InputTypeThree = (props) => {
 				value={value}
 				required
 			/>
-			<div onClick={toggleVisibility} className="btn--icon">
-				<i className={iconClassName} />
-			</div>
+			<i className={iconClassName} onClick={toggleVisibility} />
 		</div>
 	);
 };
