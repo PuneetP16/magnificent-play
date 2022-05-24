@@ -28,7 +28,7 @@ export const Playlists = () => {
 						className="btn btn--outline--primary btn__playlist"
 						onClick={() => setShowPlaylist((_showPlaylist) => !_showPlaylist)}
 					>
-						Create Playlist
+						Create New Playlist
 					</button>
 				</section>
 				<ul className="categories__items">

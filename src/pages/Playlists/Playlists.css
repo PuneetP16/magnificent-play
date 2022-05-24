@@ -92,6 +92,7 @@
 	.homepage__section {
 		justify-content: center;
 		text-align: center;
+		margin-top: 5px;
 	}
 
 	.video__banner {
@@ -101,15 +102,18 @@
 		margin: auto;
 	}
 }
+
 .playlist__header {
 	display: flex;
 	justify-content: space-between;
 	flex-direction: row;
+	margin-top: 5px;
+	padding: 0 10px;
+	flex-wrap: wrap;
 }
 
 .btn__playlist {
 	width: fit-content;
-	margin-left: auto;
 	padding: 5px 2rem;
 }
 

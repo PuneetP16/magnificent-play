@@ -24,7 +24,7 @@ export const AsideMobile = () => {
 
 				{isAuth && (
 					<>
-						<Link to="/playlist" className="nav__list_item">
+						<Link to="/playlists" className="nav__list_item">
 							{bxIcons.playlist}
 						</Link>
 

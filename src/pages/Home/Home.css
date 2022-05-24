@@ -1,6 +1,5 @@
 .main--home_page {
 	grid-area: main;
-	/* display: flex; */
 	flex-flow: row nowrap;
 	min-height: 100%;
 }
