@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { VideoListing } from "../../components";
-import { useVideo } from "../../contexts";
 import { useDocumentTitle, usePlaylistAxios } from "../../customHooks";
 import "./PlaylistVideos.css";
 
@@ -32,7 +31,7 @@ export const PlaylistVideos = () => {
 							<VideoListing list={videos} />
 						</ul>
 					) : (
-						<h3 className="h3 section__heading">No Videos in this Playlist</h3>
+						<div className="h3 section__heading empty__list">No Videos in this Playlist</div>
 					)}
 				</section>
 			</main>

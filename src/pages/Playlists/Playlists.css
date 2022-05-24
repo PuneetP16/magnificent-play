@@ -101,9 +101,22 @@
 		margin: auto;
 	}
 }
+.playlist__header {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+}
 
-/* media
+.btn__playlist {
+	width: fit-content;
+	margin-left: auto;
+	padding: 5px 2rem;
+}
 
-
-    
-*/
+.empty__list {
+	position: fixed;
+	top: 40%;
+	left: 55%;
+	color: var(--COLOR-EMPTY-LIST);
+	transform: translate(-50%, -50%);
+}

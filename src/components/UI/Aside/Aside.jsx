@@ -6,7 +6,6 @@ import {
 	IcOutlineExplore,
 	PhHeartDuotone,
 } from "../../../data/Icon";
-import { useAuth } from "../../../contexts";
 import { useSelector } from "react-redux";
 
 export const Aside = () => {

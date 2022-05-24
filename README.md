@@ -16,6 +16,7 @@ Magnificent Play is a Video Library App, where users can play binge-watch videos
 - CSS
 - JavaScript
 - ReactJS
+- React-Redux
 - Mockbee (for backend)
 
 ## Features and Functionalities

@@ -7,7 +7,7 @@ import {
 	InputTypeTwo,
 	Toast,
 } from "../../../components";
-import { useAlert, useTheme, useUser } from "../../../contexts";
+import { useTheme } from "../../../contexts";
 import { useDocumentTitle } from "../../../customHooks";
 import { bxIcons } from "../../../data/icons";
 import { signUp } from "../../../services";

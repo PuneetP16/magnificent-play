@@ -36,6 +36,7 @@ export const usePlaylistAxios = ({ method, url, resKey }) => {
 				toggleLoader();
 			}
 		})();
+		// eslint-disable-next-line
 	}, [playlists]);
 
 	return { output, response, error };

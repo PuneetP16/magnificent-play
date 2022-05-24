@@ -23,6 +23,8 @@ html[current_theme="light"] {
 	--COLOR-NOTE-BG-PURPLE: rgb(250, 186, 250);
 	--COLOR-NOTE-BG-CYAN: rgb(138, 229, 252);
 	--COLOR-NOTE-BG: rgb(0, 30, 75);
+
+	--COLOR-EMPTY-LIST: #4f5359;
 }
 
 html[current_theme="dark"] {
@@ -49,4 +51,6 @@ html[current_theme="dark"] {
 	--COLOR-NOTE-BG-PURPLE: #590659;
 	--COLOR-NOTE-BG-CYAN: #036078;
 	--COLOR-NOTE-BG: rgb(12, 19, 61);
+
+	--COLOR-EMPTY-LIST: #5c6168;
 }

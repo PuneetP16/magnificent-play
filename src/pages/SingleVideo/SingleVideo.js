@@ -1,6 +1,5 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useAuth, useVideo } from "../../contexts";
 import { useAxios, useDocumentTitle } from "../../customHooks";
 import "./SingleVideo.css";
 import ReactPlayer from "react-player";

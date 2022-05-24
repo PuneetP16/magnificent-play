@@ -136,6 +136,27 @@ export const useHandler = () => {
 		}
 	};
 
+	const clearHistory = async (axiosRequest) => {
+		try {
+			const clearAllHistoryURL = "/api/user/history/all";
+			const { output, error } = await axiosRequest({
+				method: "DELETE",
+				url: clearAllHistoryURL,
+				resKey: "history",
+			});
+
+			if (!!output) {
+				dispatch(videosAction.toggleVideoFromHistory(output));
+
+				Toast("success", "Cleared History", theme);
+			} else {
+				Toast("warning", error.response.data.errors[0], theme);
+			}
+		} catch (error) {
+			Toast("warning", error.message, theme);
+		}
+	};
+
 	const addToPlaylists = async (axiosRequest, playlist, video) => {
 		const id = playlist.id;
 		try {
@@ -153,7 +174,9 @@ export const useHandler = () => {
 				dispatch(videosAction.togglePlaylistFromPlaylists(output));
 
 				Toast("success", `Playlist named: "${playlist.title}" created`, theme);
-				addVideoToPlaylist(axiosRequest, _id, video);
+				if (video) {
+					addVideoToPlaylist(axiosRequest, _id, video);
+				}
 			} else {
 				Toast("warning", error.response.data.errors[0], theme);
 			}
@@ -250,5 +273,6 @@ export const useHandler = () => {
 		removeFromPlaylists,
 		addVideoToPlaylist,
 		removeVideoFromPlaylist,
+		clearHistory,
 	};
 };

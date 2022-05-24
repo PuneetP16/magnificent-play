@@ -49,13 +49,14 @@ export const PlaylistPanel = ({ togglePlaylistPanel, video }) => {
 			? removeVideoFromPlaylist(axiosRequest, _id, video)
 			: addVideoToPlaylist(axiosRequest, _id, video);
 	};
-
 	const noPlaylists = !(playlists?.length > 0);
 	return (
 		<div className="playlist__panel">
 			<section className="playlist_header">
 				<div className="playlist_header__text">
-					{createPlaylist
+					{!!!video
+						? "Create New Playlist"
+						: createPlaylist
 						? "Create New Playlist"
 						: noPlaylists
 						? "No Playlist Available"
@@ -70,7 +71,7 @@ export const PlaylistPanel = ({ togglePlaylistPanel, video }) => {
 				</div>
 			</section>
 			<section className="playlist__listing">
-				{noPlaylists
+				{noPlaylists || !!!video
 					? null
 					: playlists?.map((playlist) => {
 							return (

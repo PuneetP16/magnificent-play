@@ -3,7 +3,6 @@ import "./Home.css";
 import { banner3 } from "../../data/image/productImages";
 import { useDocumentTitle } from "../../customHooks";
 import { Link } from "react-router-dom";
-import { useVideo } from "../../contexts";
 import { CategoryListing, VideoListing } from "../../components";
 import { useSelector } from "react-redux";
 

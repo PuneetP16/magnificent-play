@@ -24,7 +24,7 @@ export const SearchBox = () => {
 		} else {
 			dispatch(filterAction.reset());
 		}
-	}, [query]);
+	}, [dispatch, query]);
 
 	const passQuery = (e) => {
 		e.preventDefault();

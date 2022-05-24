@@ -24,7 +24,7 @@ import {
 	Loader,
 	SearchBoxMobile,
 } from "./components";
-import { useAlert, useAuth, useLoader } from "./contexts";
+import { useLoader } from "./contexts";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 

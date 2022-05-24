@@ -13,9 +13,16 @@ export const WatchLater = () => {
 			<main className="main--homepage">
 				<section className="homepage__section items_container">
 					<h3 className="h3 section__heading">WatchLater Videos</h3>
-					<ul className="video__items">
-						<VideoListing list={watchLater} />
-					</ul>
+
+					{watchLater?.length > 0 ? (
+						<ul className="video__items">
+							<VideoListing list={watchLater} />
+						</ul>
+					) : (
+						<div className="h3 section__heading empty__list">
+							No Videos Added to WatchLater
+						</div>
+					)}
 				</section>
 			</main>
 		</div>
