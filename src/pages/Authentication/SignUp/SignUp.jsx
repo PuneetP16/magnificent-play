@@ -4,8 +4,9 @@ import {
 	InputTypeOne,
 	InputTypeThree,
 	InputTypeTwo,
+	Toast,
 } from "../../../components";
-import { useAlert, useUser } from "../../../contexts";
+import { useAlert, useTheme, useUser } from "../../../contexts";
 import { useDocumentTitle } from "../../../customHooks";
 import { bxIcons } from "../../../data/icons";
 import { signUp } from "../../../services";
@@ -20,14 +21,13 @@ export const SignUp = () => {
 		password: "",
 		consent: "	",
 	};
+	const { theme } = useTheme();
 
 	const [isVisible, setIsVisible] = useState(false);
 
 	const [signUpData, setSignUpData] = useState(initialSignUpData);
 
 	const { loginData, userData, dispatch } = useUser();
-
-	const { setAlert } = useAlert();
 
 	const navigate = useNavigate();
 	const toggleVisibility = () => {
@@ -59,14 +59,14 @@ export const SignUp = () => {
 				loginData,
 				userData,
 				dispatch,
+				theme,
 			});
 		} else {
-			setAlert((a) => ({
-				...a,
-				visibility: true,
-				text: "Minimum 8 char, 1 Uppercase, 1 Lowercase, 1 number & 1 Special Character required",
-				type: "alert--danger",
-			}));
+			Toast(
+				"info",
+				"Minimum 8 char, 1 Uppercase, 1 Lowercase, 1 number & 1 Special Character required",
+				theme
+			);
 		}
 	};
 

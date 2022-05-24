@@ -2,23 +2,19 @@ import "./CTA.css";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { ThemeToggle } from "../../ThemeToggle/ThemeToggle";
-import { useAlert, useAuth } from "../../../../contexts";
+import { useAlert, useAuth, useTheme } from "../../../../contexts";
+import { Toast } from "../../Toast/Toast";
 
 export const CTA = () => {
 	const { isAuth, toggleAuth } = useAuth();
 	const { pathname } = useLocation();
-	const { setAlert } = useAlert();
+	const { theme } = useTheme();
 
 	const logoutHandler = () => {
 		if (isAuth) {
 			localStorage.removeItem("videoToken");
 			toggleAuth();
-			setAlert((a) => ({
-				...a,
-				visibility: true,
-				text: "Logged Out",
-				type: "alert--success",
-			}));
+			Toast("success", "logged out successfully", theme);
 		}
 	};
 

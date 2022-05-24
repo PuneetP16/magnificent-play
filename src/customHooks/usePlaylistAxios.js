@@ -1,18 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useAlert, useAuth, useLoader, useVideo } from "../contexts";
+import { Toast } from "../components";
+import { useAlert, useAuth, useLoader, useTheme, useVideo } from "../contexts";
 
 export const usePlaylistAxios = ({ method, url, resKey, alert }) => {
 	const { token } = useAuth();
 	const { toggleLoader } = useLoader();
-	const { setAlert } = useAlert();
 	const {
 		videoState: { playlists },
 	} = useVideo();
 	let headers = {};
 	let response, error;
 	const [output, setOutput] = useState({});
-
+	const { theme } = useTheme();
 	headers = {
 		authorization: token,
 	};
@@ -29,22 +29,16 @@ export const usePlaylistAxios = ({ method, url, resKey, alert }) => {
 
 					setOutput(res.data[resKey]);
 
-
 					if (!alert) {
 						toggleLoader();
 					}
 					if (alert) {
-						setAlert((a) => ({
-							...a,
-							visibility: true,
-							text: alert,
-							type: "alert--success",
-						}));
+						Toast("success", alert, theme);
 					}
 				}
 			} catch (err) {
 				error = err.response.data.errors[0];
-				console.log(error);
+				Toast("error", error, theme);
 				if (!alert) {
 					toggleLoader();
 				}
