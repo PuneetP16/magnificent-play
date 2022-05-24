@@ -7,9 +7,11 @@ import {
 	PhHeartDuotone,
 } from "../../../data/Icon";
 import { useAuth } from "../../../contexts";
+import { useSelector } from "react-redux";
 
 export const AsideMobile = () => {
-	const { isAuth } = useAuth();
+	const { isAuth } = useSelector((state) => state.auth);
+
 	return (
 		<aside className="nav--mobile">
 			<ul className="nav__items--mobile ">

@@ -3,12 +3,12 @@ import "./Playlists.css";
 import { useDocumentTitle } from "../../customHooks";
 import { useVideo } from "../../contexts";
 import { PlaylistCard } from "../../components";
+import { useSelector } from "react-redux";
 
 export const Playlists = () => {
 	useDocumentTitle("Playlists | MS");
-	const {
-		videoState: { playlists },
-	} = useVideo();
+
+	const  playlists = useSelector((state) => state.videos.playlists);
 
 	return (
 		<div className="home_page">

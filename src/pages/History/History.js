@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { VideoListing } from "../../components";
 import { useVideo } from "../../contexts";
 import { useDocumentTitle } from "../../customHooks";
@@ -6,9 +7,7 @@ import "./History.css";
 export const History = () => {
 	useDocumentTitle("History | MS");
 
-	const {
-		videoState: { history },
-	} = useVideo();
+	const history = useSelector((state) => state.videos.history);
 
 	return (
 		<div className="home_page">

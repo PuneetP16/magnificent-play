@@ -5,12 +5,13 @@ import { useDocumentTitle } from "../../customHooks";
 import { Link } from "react-router-dom";
 import { useVideo } from "../../contexts";
 import { CategoryListing, VideoListing } from "../../components";
+import { useSelector } from "react-redux";
 
 export const Home = () => {
 	useDocumentTitle("Home | MS");
-	const {
-		videoState: { videos, categories },
-	} = useVideo();
+
+	const { videos, categories } = useSelector((state) => state.videos);
+
 	return (
 		<div className="home_page">
 			<main className="main--homepage">

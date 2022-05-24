@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Toast } from "../../components";
+import { userAction } from "../../store/userSlice";
 
 export const signUp = async ({
 	signUpData,
@@ -12,16 +13,16 @@ export const signUp = async ({
 	try {
 		const res = await axios.post("/api/auth/signup", signUpData);
 		if (res.status === 201) {
-			dispatch({
-				type: "HANDLE_SUBMIT",
+			dispatch(
+				userAction.submitHandler({
+					initialFormState: { loginData: { ...signUpData } },
 
-				initialFormState: { loginData: { ...signUpData } },
-
-				payload: {
-					userData,
-					...loginData,
-				},
-			});
+					userData: {
+						userData,
+						...loginData,
+					},
+				})
+			);
 			navigate("/login");
 			Toast("success", "Successfully created account, just login", theme);
 		}

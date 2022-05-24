@@ -1,6 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useAuth, useVideo } from "../../../contexts";
+import { useState } from "react";
 import { useAxios } from "../../../customHooks";
 import { bxIcons } from "../../../data/icons";
 import { isVideoInList } from "../../../utilities/checkIfExist";
@@ -11,18 +10,20 @@ import {
 import "./VideoCard.css";
 import { PlaylistPanel } from "../../PlaylistPanel/PlaylistPanel";
 import { Modal } from "../../UI/Modal/Modal";
+import { useHandler } from "../../../customHooks/useHandler";
+import { useSelector } from "react-redux";
 
 export const VideoCard = ({ video }) => {
 	const { pathname } = useLocation();
 	const navigate = useNavigate();
+	const { watchLater, likes } = useSelector((state) => state.videos);
 	const {
-		videoState: { likes, watchlater },
 		addToLikedVideos,
 		removeFromLikedVideos,
 		removeFromWatchLaterVideos,
 		addToWatchLaterVideos,
 		removeFromHistoryVideos,
-	} = useVideo();
+	} = useHandler();
 
 	const _id = video?._id;
 	const duration = video?.contentDetails?.duration;
@@ -33,7 +34,7 @@ export const VideoCard = ({ video }) => {
 	const thumbnailURL = video?.snippet?.thumbnails?.high?.url;
 
 	const { axiosRequest } = useAxios();
-	const { isAuth } = useAuth();
+	const { isAuth } = useSelector((state) => state.auth);
 
 	const isHistoryPage = pathname === "/history";
 
@@ -46,7 +47,7 @@ export const VideoCard = ({ video }) => {
 
 	const toggleWatchLaterVideo = () => {
 		if (!isAuth) return navigate("/login");
-		isVideoInList(video, watchlater)
+		isVideoInList(video, watchLater)
 			? removeFromWatchLaterVideos(axiosRequest, video)
 			: addToWatchLaterVideos(axiosRequest, video);
 	};
@@ -60,7 +61,7 @@ export const VideoCard = ({ video }) => {
 
 	const getWatchLaterBtn = (() => {
 		if (pathname === "/watchlater") return bxIcons.watchLaterSelected;
-		return isVideoInList(video, watchlater)
+		return isVideoInList(video, watchLater)
 			? bxIcons.watchLaterSelected
 			: bxIcons.watchLater;
 	})();
@@ -99,7 +100,7 @@ export const VideoCard = ({ video }) => {
 						<button
 							className="btn btn--primary btn--icon btn--round"
 							title={
-								isVideoInList(video, watchlater)
+								isVideoInList(video, watchLater)
 									? "remove from watch later"
 									: "Watch Later"
 							}

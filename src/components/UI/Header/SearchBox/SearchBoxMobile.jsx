@@ -1,15 +1,15 @@
 import { bxIcons } from "../../../../data/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./SearchBox.css";
-import { useFilter } from "../../../../contexts";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { filterAction } from "../../../../store/filterSlice";
 
 export const SearchBoxMobile = () => {
 	const { pathname } = useLocation();
 	const visibility = (() =>
 		pathname === "/login" || pathname === "/signup" ? "invisible" : "")();
-
-	const { filterDispatch, initialFilterState } = useFilter();
+	const dispatch = useDispatch();
 
 	const [query, setQuery] = useState("");
 	const navigate = useNavigate();
@@ -20,9 +20,9 @@ export const SearchBoxMobile = () => {
 
 	useEffect(() => {
 		if (query) {
-			filterDispatch({ type: "SEARCH", payload: query });
+			dispatch(filterAction.filterBySearch(query));
 		} else {
-			filterDispatch({ type: "RESET", payload: initialFilterState });
+			dispatch(filterAction.reset());
 		}
 	}, [query]);
 

@@ -7,9 +7,10 @@ import {
 	PhHeartDuotone,
 } from "../../../data/Icon";
 import { useAuth } from "../../../contexts";
+import { useSelector } from "react-redux";
 
 export const Aside = () => {
-	const { isAuth } = useAuth();
+	const { isAuth } = useSelector((state) => state.auth);
 
 	return (
 		<aside className="nav notes_nav">

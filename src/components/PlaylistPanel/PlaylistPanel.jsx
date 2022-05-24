@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { useVideo } from "../../contexts";
 import { useAxios } from "../../customHooks";
 import { bxIcons } from "../../data/icons";
 import { isVideoInList } from "../../utilities/checkIfExist";
 import "./PlaylistPanel.css";
+import { v4 as uuid } from "uuid";
+import { useHandler } from "../../customHooks/useHandler";
+import { useSelector } from "react-redux";
 
 export const PlaylistPanel = ({ togglePlaylistPanel, video }) => {
 	const initialPlaylist = {
@@ -14,19 +16,18 @@ export const PlaylistPanel = ({ togglePlaylistPanel, video }) => {
 
 	const [createPlaylist, setCreatePlaylist] = useState(false);
 
-	const {
-		videoState: { playlists },
-		addToPlaylists,
-		removeFromPlaylists,
-		addVideoToPlaylist,
-		removeVideoFromPlaylist,
-	} = useVideo();
+	const playlists = useSelector((state) => {
+		return state.videos.playlists;
+	});
+	const { addToPlaylists, addVideoToPlaylist, removeVideoFromPlaylist } =
+		useHandler();
 	const { axiosRequest } = useAxios();
 
 	const playlistInputHandler = (e) => {
 		setPlaylistObj((playlist) => ({
 			...playlist,
 			[e.target.name]: e.target.value,
+			id: uuid(),
 		}));
 	};
 
@@ -43,14 +44,13 @@ export const PlaylistPanel = ({ togglePlaylistPanel, video }) => {
 	};
 
 	const toggleVideoFromPlaylist = (_id) => {
-		const currPlaylist = playlists.find((playlist) => playlist._id === _id);
+		const currPlaylist = playlists?.find((playlist) => playlist._id === _id);
 		isVideoInList(video, currPlaylist.videos)
 			? removeVideoFromPlaylist(axiosRequest, _id, video)
 			: addVideoToPlaylist(axiosRequest, _id, video);
 	};
 
-	const noPlaylists = !(playlists.length > 0);
-
+	const noPlaylists = !(playlists?.length > 0);
 	return (
 		<div className="playlist__panel">
 			<section className="playlist_header">
@@ -72,14 +72,14 @@ export const PlaylistPanel = ({ togglePlaylistPanel, video }) => {
 			<section className="playlist__listing">
 				{noPlaylists
 					? null
-					: playlists.map((playlist) => {
+					: playlists?.map((playlist) => {
 							return (
 								<li key={playlist._id} className="playlist__item">
 									<input
 										onChange={() => toggleVideoFromPlaylist(playlist._id)}
 										checked={
-											playlist.videos.findIndex(
-												(_video) => _video._id === video._id
+											playlist?.videos?.findIndex(
+												(_video) => _video?._id === video?._id
 											) !== -1
 										}
 										type="checkbox"

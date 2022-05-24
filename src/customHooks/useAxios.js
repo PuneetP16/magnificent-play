@@ -1,9 +1,10 @@
 import axios from "axios";
-import { Toast } from "../components";
-import { useAlert, useAuth, useLoader, useTheme } from "../contexts";
+import { useSelector } from "react-redux";
+import { useLoader } from "../contexts";
 
 export const useAxios = () => {
-	const { token } = useAuth();
+	const { token } = useSelector((state) => state.auth);
+
 	const { toggleLoader } = useLoader();
 
 	let headers = {};
